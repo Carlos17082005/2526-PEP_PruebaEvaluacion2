@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Django blog</title>
+    </head>
+    <body>
+        <header>
+            <h1><a href="{% url 'base' %}">Django blog</a></h1>
+        </header>
+        <div>{% block content %}
+            {% for reseña in reseñas %}
+            <div class="reseña-entry">
+                <h2><a href="">{{ reseña.nombre_juego }}</a></h2>
+                <p>Author: {{ reseña.autor }}</a>
+                <p>{{ reseña.cuerpo }}</p>
+            </div>
+            {% endfor %}
+            {% endblock content %}
+        </div>
+    </body>
+</html>
