@@ -1,20 +1,32 @@
+{% load static %}
 <html>
     <head>
-        <title>Django blog</title>
+        <title>Django</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     </head>
     <body>
         <header>
-            <h1><a href="{% url 'base' %}">Django blog</a></h1>
-        </header>
-        <div>{% block content %}
-            {% for reseña in reseñas %}
-            <div class="reseña-entry">
-                <h2><a href="">{{ reseña.nombre_juego }}</a></h2>
-                <p>Author: {{ reseña.autor }}</a>
-                <p>{{ reseña.cuerpo }}</p>
+            <div class="nav-left">
+                <h1><a href="{% url 'home' %}">Django</a></h1>
             </div>
-            {% endfor %}
-            {% endblock content %}
-        </div>
+            <div class="nav-right">
+                <a href="">+ Nuevo</a>
+            </div>
+        </header>
+        <!-- nuevo HTML... -->
+        {% if user.is_authenticated %}
+            <p>Hola {{ user.username }}!</p>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Log Out</button>
+            </form>
+        {% else %}
+            <p>No has iniciado sesión.</p>
+            <a href="{% url 'login' %}">Log In</a>
+            <br>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        {% endif %}
+        <!-- fin nuevo HTML... -->
+        <div>{% block content %} {% endblock content %}</div>
     </body>
 </html>
