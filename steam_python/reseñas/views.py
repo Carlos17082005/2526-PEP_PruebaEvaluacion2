@@ -1,9 +1,11 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .models import Juego, Resena 
+from .models import Juego, Resena
+from django.views.generic import ListView
 
 
-def lista_resenas(request):
-    res = Resena.objects.all()
-    return render(request, "base.html", {"resenas": res})
+class VistaListaJuegos(ListView):
+    model = Juego
+    template_name = "home.html"
+    context_object_name = "juegos"

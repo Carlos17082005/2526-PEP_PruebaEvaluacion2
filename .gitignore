@@ -7,3 +7,6 @@ db.sqlite3
 # Ignorar archivos compilados de Python 
 __pycache__/
 *.pyc
+
+# Carpeta donde se guardan las imagenes
+media/

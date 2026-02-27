@@ -1,11 +1,17 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+import uuid
+import os
 
+def upload_to(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4()}.{ext}"
+    return os.path.join('posts/', filename)
 
 # Create your models here.
 class Juego(models.Model):
     nombre_juego = models.CharField(max_length=200)
-    imagen = models.TextField()
+    imagen = models.ImageField(upload_to=upload_to)
 
     def __str__(self):
         return self.nombre_juego

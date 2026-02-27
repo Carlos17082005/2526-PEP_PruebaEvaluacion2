@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    
+    {% for juego in juegos %} 
+            <div style="border-width: 2px; border-color: black; border-style: solid; width: 200px;">
+                <a href="{{ juego.imagen }}">
+                    <img src="../media/{{ juego.imagen }}" alt="no se puede ver la imagen" style="width: 200px;"></p>
+                    <h2>{{ juego.nombre_juego }}</h2>
+                </a>
+            </div>
+        <br>
+    {% empty %}
+        &nbsp;&nbsp;&nbsp;<h2>No hay juegos registrados</h2>
+    {% endfor %}
 {% endblock content %}

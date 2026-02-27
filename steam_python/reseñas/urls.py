@@ -1,7 +1,13 @@
 # reseñas/urls.py
 from django.urls import path
-from .views import lista_resenas
+from django.conf import settings
+from django.conf.urls.static import static
+
+from .views import VistaListaJuegos
 
 urlpatterns = [
-    path("", lista_resenas, name="home"),
+    path("", VistaListaJuegos.as_view(), name="home"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
