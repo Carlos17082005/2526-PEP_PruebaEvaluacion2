@@ -1,7 +1,7 @@
 # reseñas/urls.py
 from django.urls import path
-from .views import lista_reseñas
+from .views import lista_resenas
 
 urlpatterns = [
-    path("", lista_reseñas, name="home"),
+    path("", lista_resenas, name="home"),
 ]
