@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from .models import Juego, Resena
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView,DetailView,CreateView,DeleteView
 
 
 class VistaListaJuegos(ListView):
@@ -23,3 +23,8 @@ class VistaCrearJuego(CreateView):
     success_url = reverse_lazy("home")
     template_name = "nuevo_juego.html"
     fields = ["nombre_juego", "imagen","autor"]
+
+class VistaEliminarJuego(DeleteView):
+    model = Juego
+    success_url = reverse_lazy("home")
+    template_name = "eliminar_juego.html"
