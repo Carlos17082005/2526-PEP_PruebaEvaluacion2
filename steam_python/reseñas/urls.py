@@ -7,7 +7,7 @@ from .views import VistaListaJuegos, VistaDetalleJuego, VistaCrearJuego
 
 urlpatterns = [
     path("", VistaListaJuegos.as_view(), name="home"),
-    path("juego/<str:nombre_juego>/", VistaDetalleJuego.as_view(), name="detalle_juego"),
+    path("juego/detalle/<str:nombre_juego>/", VistaDetalleJuego.as_view(), name="detalle_juego"),
     path("juego/nuevo/", VistaCrearJuego.as_view(), name="nuevo_juego"),
 ]
 
