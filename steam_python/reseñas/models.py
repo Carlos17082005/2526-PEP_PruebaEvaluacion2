@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
 import os
+from django.urls import reverse
 
 def upload_to(instance, filename):
     ext = filename.split('.')[-1]
@@ -15,6 +16,9 @@ class Juego(models.Model):
 
     def __str__(self):
         return f"{self.nombre_juego}({self.autor})"
+    
+    def get_absolute_url(self): # nuevo
+        return reverse("detalle_juego", kwargs={"pk": self.pk})
 
 
 class Resena(models.Model):
