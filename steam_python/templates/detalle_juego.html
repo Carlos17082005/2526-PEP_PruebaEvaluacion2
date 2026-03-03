@@ -3,9 +3,12 @@
 
 {% block content %}
     <div>
-        <h2>{{ object.nombre_juego }}</h2>
+        <h2>
+            {{ object.nombre_juego }} 
+            <a href="{% url 'editar_juego' juego.pk %}"><button> Editar Juego </button></a>
+            <a href="{% url 'eliminar_juego' juego.pk %}"><button> Eliminar Juego </button></a>
+        </h2>
         <p>Creado por: {{ object.autor }}</p>
         <img src="/media/{{ object.imagen }}" alt="no se puede ver la imagen" style="width: 300px;">
-        <a href="{% url 'eliminar_juego' object.nombre_juego %}"><button> Eliminar Juego </button></a>
     </div>
 {% endblock content %}

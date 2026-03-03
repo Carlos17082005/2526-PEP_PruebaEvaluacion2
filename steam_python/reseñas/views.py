@@ -1,7 +1,6 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from .models import Juego, Resena
-from django.views.generic import ListView,DetailView,CreateView,DeleteView
+from django.views.generic import ListView,DetailView,CreateView,DeleteView,UpdateView
 
 
 class VistaListaJuegos(ListView):
@@ -13,11 +12,6 @@ class VistaDetalleJuego(DetailView):
     model = Juego
     template_name = "detalle_juego.html"
 
-    # Le decimos a Django: "Busca en la columna 'nombre_juego' de la base de datos..."
-    slug_field = "nombre_juego" 
-    # "...el valor que te llega desde la URL llamado también 'nombre_juego'"
-    slug_url_kwarg = "nombre_juego"
-
 class VistaCrearJuego(CreateView):
     model = Juego
     success_url = reverse_lazy("home")
@@ -26,5 +20,15 @@ class VistaCrearJuego(CreateView):
 
 class VistaEliminarJuego(DeleteView):
     model = Juego
-    success_url = reverse_lazy("home")
     template_name = "eliminar_juego.html"
+    success_url = reverse_lazy("home")
+
+class VistaEditarJuego(UpdateView):
+    model = Juego
+    template_name = "editar_juego.html"
+    fields = ["nombre_juego", "imagen"]
+
+
+
+
+
