@@ -1,0 +1,12 @@
+<!-- templates/eliminar_juego.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Editar:  <span class="importante1">{{ object.nombre_juego }}</span> </h1>
+    <img src="/media/{{ object.imagen }}" alt="(imagen del juego no disponible)" style="width: 300px;">
+    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.as_p }} <br>
+        <input type="submit" value="Guardar Cambios">
+    </form>
+    <a href="{% url 'detalle_juego' juego.pk %}"><button> Volver a Detalles </button></a>
+{% endblock content %}

@@ -10,7 +10,7 @@
                 <h1><a href="{% url 'home' %}">Django</a></h1>
             </div>
             <div class="nav-right">
-                <a href="">+ Nuevo</a>
+                <a href="{% url 'nuevo_juego' %}">+ Añadir Juego</a>
             </div>
         </header>
         <!-- nuevo HTML... -->
@@ -25,6 +25,7 @@
             <a href="{% url 'login' %}">Log In</a>
             <br>
             <a href="{% url 'signup' %}">Sign Up</a>
+            <br><br>
         {% endif %}
         <!-- fin nuevo HTML... -->
         <div>{% block content %} {% endblock content %}</div>

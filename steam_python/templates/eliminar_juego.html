@@ -1,0 +1,12 @@
+<!-- templates/eliminar_juego.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>¿Seguro que quieres eliminar <span class="importante1">{{ object.nombre_juego }}</span> ?</h1>
+    <img src="/media/{{ object.imagen }}" alt="(imagen del juego no disponible)" style="width: 300px; opacity: 50%;">
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }} <br>
+        <input type="submit" value="Si, borrar definitivamente">
+    </form>
+    <a href="{% url 'detalle_juego' juego.pk%}"><button> Cancelar </button></a>
+{% endblock content %}
