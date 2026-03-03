@@ -4,6 +4,7 @@
 {% block content %}
     <div>
         <h2>{{ object.nombre_juego }}</h2>
+        <p>Creado por: {{ object.autor }}</p>
         <img src="/media/{{ object.imagen }}" alt="no se puede ver la imagen" style="width: 300px;">
     </div>
 {% endblock content %}

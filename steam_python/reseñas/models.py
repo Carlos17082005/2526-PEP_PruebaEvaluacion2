@@ -8,21 +8,18 @@ def upload_to(instance, filename):
     filename = f"{uuid.uuid4()}.{ext}"
     return os.path.join('posts/', filename)
 
-# Create your models here.
 class Juego(models.Model):
     nombre_juego = models.CharField(max_length=200)
     imagen = models.ImageField(upload_to=upload_to)
+    autor = models.ForeignKey("auth.User",on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nombre_juego
+        return f"{self.nombre_juego}({self.autor})"
 
 
 class Resena(models.Model):
     juego = models.ForeignKey(Juego, on_delete=models.CASCADE, related_name="resenas")
-    autor = models.ForeignKey(
-        "auth.User",
-        on_delete=models.CASCADE,
-    )
+    autor = models.ForeignKey("auth.User",on_delete=models.CASCADE)
     cuerpo = models.TextField()
     puntuacion = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(50)]

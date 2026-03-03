@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from .models import Juego, Resena
 from django.views.generic import ListView, DetailView, CreateView
 
@@ -19,5 +20,6 @@ class VistaDetalleJuego(DetailView):
 
 class VistaCrearJuego(CreateView):
     model = Juego
-    template_name = "juego_post.html"
-    fields = ["nombre_juego", "imagen"]
+    success_url = reverse_lazy("home")
+    template_name = "nuevo_juego.html"
+    fields = ["nombre_juego", "imagen","autor"]
