@@ -17,7 +17,7 @@ class Juego(models.Model):
     def __str__(self):
         return f"{self.nombre_juego}({self.autor})"
     
-    def get_absolute_url(self): # nuevo
+    def get_absolute_url(self):
         return reverse("detalle_juego", kwargs={"pk": self.pk})
 
 
@@ -31,3 +31,8 @@ class Resena(models.Model):
 
     def __str__(self):
         return f"Reseña de {self.autor} para {self.juego.nombre_juego} ({self.puntuacion / 10})"
+
+    def get_absolute_url(self):
+        return reverse("detalle_juego", kwargs={"pk": self.pk})
+
+
