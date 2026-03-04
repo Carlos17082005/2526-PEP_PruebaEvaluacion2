@@ -28,6 +28,7 @@ class Resena(models.Model):
     puntuacion = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(50)]
     )
+    
 
     def __str__(self):
         return f"Reseña de {self.autor} para {self.juego.nombre_juego} ({self.puntuacion / 10})"

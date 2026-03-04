@@ -3,7 +3,11 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import VistaListaJuegos,VistaDetalleJuego,VistaCrearJuego,VistaEliminarJuego,VistaEditarJuego
+from .views import (VistaListaJuegos,
+                    VistaDetalleJuego,
+                    VistaCrearJuego,
+                    VistaEliminarJuego,
+                    VistaEditarJuego)
 
 urlpatterns = [
     path("", VistaListaJuegos.as_view(), name="home"),
