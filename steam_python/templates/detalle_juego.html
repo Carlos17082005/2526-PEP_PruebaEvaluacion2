@@ -29,6 +29,10 @@
                 <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
                 <h3 class="puntuacion_resena">Puntuación: {{resena.puntuacion}}</h3>
                 <p class="texto_resena">{{ resena.cuerpo }}</p>
+                <div class="eliminar_resena">
+                    <a href="{% url 'editar_resena' resena.pk %}"><button>Editar Reseña</button></a>
+                    <a href="{% url 'eliminar_resena' resena.pk %}"><button>Eliminar Reseña</button></a>
+                </div>
             </div>
             <br>
         {% empty %}

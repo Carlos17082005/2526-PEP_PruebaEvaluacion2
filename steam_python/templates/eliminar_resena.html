@@ -1,0 +1,16 @@
+<!-- templates/eliminar_juego.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>¿Seguro que quieres eliminar esta reseña ?</h1>
+    <div style="border-width: 1px; border-color: black; border-style: solid; width: 500px; padding: 3px;">
+        <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
+        <h3 class="puntuacion_resena">Puntuación: {{resena.puntuacion}}</h3>
+        <p class="texto_resena">{{ resena.cuerpo }}</p>
+    </div>
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }} <br>
+        <input type="submit" value="Si, borrar definitivamente">
+    </form>
+    <a href="{% url 'home' %}"><button> Cancelar </button></a>
+{% endblock content %}

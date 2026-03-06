@@ -12,6 +12,8 @@ from django.views.generic.edit import FormMixin
 from django.urls import reverse
 from .forms import ResenaForm
 
+
+########################### JUEGOS #######################################################
 class VistaListaJuegos(ListView):
     model = Juego
     template_name = "home.html"
@@ -20,6 +22,8 @@ class VistaListaJuegos(ListView):
 class VistaDetalleJuego(FormMixin, DetailView):
     model = Juego
     template_name = "detalle_juego.html"
+
+    # ****************** Crear Reseña *************************************
     form_class = ResenaForm
 
     def get_success_url(self):
@@ -42,7 +46,9 @@ class VistaDetalleJuego(FormMixin, DetailView):
         resena.autor = self.request.user # Le asignamos el autor actual
         resena.save()                    # Guardamos definitivamente
         return super().form_valid(form)
-
+    
+    # ****************** Crear Reseña *************************************
+    
 class VistaCrearJuego(LoginRequiredMixin, CreateView):
     model = Juego
     success_url = reverse_lazy("home")
@@ -77,13 +83,27 @@ class VistaEditarJuego(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         messages.error(self.request, "NO tienes permiso para EDITAR este Juego")
         return redirect("detalle_juego", pk=self.get_object().pk)
 
-class VistaNuevaResena(LoginRequiredMixin, CreateView):
+########################### RESEÑAS #######################################################
+class VistaEliminarResena(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Resena
-    success_url = reverse_lazy("detalle_juego")
-    template_name = "detalle_juego.html"
-    fields = ["cuerpo","puntuacion"]
+    template_name = "eliminar_resena.html"
+    success_url = reverse_lazy("home")
 
-    def form_valid(self, form):
-        form.instance.autor = self.request.user
-        return super().form_valid(form)
+    def test_func(self):
+        return (self.get_object().autor == self.request.user) or (self.request.user.is_staff)
 
+    def handle_no_permission(self): 
+        messages.error(self.request, "NO tienes permiso para BORRAR este Juego")
+        return redirect("detalle_juego", pk=self.get_object().pk)
+
+class VistaEditarResena(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Resena
+    template_name = "editar_juego.html"
+    fields = ["nombre_juego", "imagen"]
+
+    def test_func(self):
+        return (self.get_object().autor == self.request.user) or (self.request.user.is_staff)
+
+    def handle_no_permission(self): 
+        messages.error(self.request, "NO tienes permiso para EDITAR este Juego")
+        return redirect("detalle_juego", pk=self.get_object().pk)

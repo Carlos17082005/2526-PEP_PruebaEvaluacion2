@@ -1,0 +1,15 @@
+<!-- templates/eliminar_juego.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="border-width: 1px; border-color: black; border-style: solid; width: 500px; padding: 3px;">
+        <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
+        <h3 class="puntuacion_resena">Puntuación: {{resena.puntuacion}}</h3>
+        <p class="texto_resena">{{ resena.cuerpo }}</p>
+    </div>
+    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.as_p }} <br>
+        <input type="submit" value="Guardar Cambios">
+    </form>
+    <a href="{% url 'home' %}"><button> Volver a Detalles </button></a>
+{% endblock content %}
