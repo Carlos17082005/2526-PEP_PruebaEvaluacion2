@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
 from .models import Juego, Resena
 from django.views.generic import (ListView, 
                                   DetailView, 
@@ -9,7 +9,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic.edit import FormMixin
-from django.urls import reverse
 from .forms import ResenaForm
 
 
@@ -93,17 +92,21 @@ class VistaEliminarResena(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return (self.get_object().autor == self.request.user) or (self.request.user.is_staff)
 
     def handle_no_permission(self): 
-        messages.error(self.request, "NO tienes permiso para BORRAR este Juego")
-        return redirect("detalle_juego", pk=self.get_object().pk)
+        messages.error(self.request, "NO tienes permiso para BORRAR esta RESEÑA")
+        return redirect("detalle_juego", pk=self.get_object().juego.pk)
 
 class VistaEditarResena(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Resena
-    template_name = "editar_juego.html"
-    fields = ["nombre_juego", "imagen"]
+    template_name = "editar_resena.html"
+    fields = ["cuerpo", "puntuacion"]
 
     def test_func(self):
         return (self.get_object().autor == self.request.user) or (self.request.user.is_staff)
 
     def handle_no_permission(self): 
-        messages.error(self.request, "NO tienes permiso para EDITAR este Juego")
-        return redirect("detalle_juego", pk=self.get_object().pk)
+        messages.error(self.request, "NO tienes permiso para EDITAR esta RESEÑA")
+        return redirect("detalle_juego", pk=self.get_object().juego.pk)
+    
+    def get_success_url(self):
+        # Redirige a esta misma página tras publicar
+        return reverse("detalle_juego", kwargs={"pk": self.object.juego.pk})

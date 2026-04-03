@@ -12,5 +12,5 @@
         {{ form.as_p }} <br>
         <input type="submit" value="Si, borrar definitivamente">
     </form>
-    <a href="{% url 'home' %}"><button> Cancelar </button></a>
+    <a href="{% url 'detalle_juego' resena.juego.pk %}"><button> Cancelar </button></a>
 {% endblock content %}
