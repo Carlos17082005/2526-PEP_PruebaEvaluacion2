@@ -17,6 +17,13 @@ class VistaListaJuegos(ListView):
     model = Juego
     template_name = "home.html"
     context_object_name = "juegos"
+    
+    def get_queryset(self):
+        if (self.request.GET.get('buscar')):
+            nombre_buscado = self.request.GET.get('buscar')
+            return Juego.objects.filter(nombre_juego__icontains=nombre_buscado)
+        else:
+            return Juego.objects.filter()
 
 class VistaDetalleJuego(FormMixin, DetailView):
     model = Juego

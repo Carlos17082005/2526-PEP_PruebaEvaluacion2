@@ -1,6 +1,12 @@
 {% extends "base.html" %}
-
 {% block content %}
+    <div class="buscador">
+        <form action="" method="get">
+            <input type="text" name="buscar">
+            <input type="submit" value="🔍 Buscar">
+        </form>
+        
+    </div>
     {% for juego in juegos %} 
             <div style="border-width: 2px; border-color: black; border-style: solid; width: 200px;">
                 <a href="{% url 'detalle_juego' juego.pk %}">
@@ -8,7 +14,7 @@
                     <h2>{{ juego.nombre_juego }}</h2>
                     <p>Creado por: {{ juego.autor }}</p>
                 </a>
-            </div>
+            </div> 
         <br>
     {% empty %}
         &nbsp;&nbsp;&nbsp;<h2>No hay juegos registrados</h2>
