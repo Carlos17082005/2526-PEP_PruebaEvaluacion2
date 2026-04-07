@@ -2,7 +2,7 @@
 {% extends "base.html" %} 
 
 {% block content %}
-    <div>
+    <div class="info_juego">
         <h2>
             {{ object.nombre_juego }} 
             <a href="{% url 'editar_juego' juego.pk %}"><button> Editar Juego </button></a>
@@ -10,5 +10,33 @@
         </h2>
         <p>Creado por: {{ object.autor }}</p>
         <img src="/media/{{ object.imagen }}" alt="no se puede ver la imagen" style="width: 300px;">
+    </div>
+    <br><br>
+    <div class="apartado_resenas" style="border: solid 5px; padding: 5px;">
+        <div class="nueva_resenas" style="border: solid 3px; padding: 5px;">
+            <h3>Escribir Reseña</h3>
+            {% if user.is_authenticated %}
+                <form action="" method="post">{% csrf_token %}
+                    {{ form.as_p }} <br>
+                    <input type="submit" value="Publicar Reseña">
+                </form>
+            {% else %}
+                <p>Por favor, inicia sesión para escribir una reseña.</p>
+            {% endif %}
+        </div><br>
+        {% for resena in object.resenas.all %} 
+            <div style="border-width: 1px; border-color: black; border-style: solid; width: 500px; padding: 3px;">
+                <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
+                <h3 class="puntuacion_resena">Puntuación: {{resena.puntuacion}}</h3>
+                <p class="texto_resena">{{ resena.cuerpo }}</p>
+                <div class="eliminar_resena">
+                    <a href="{% url 'editar_resena' resena.pk %}"><button>Editar Reseña</button></a>
+                    <a href="{% url 'eliminar_resena' resena.pk %}"><button>Eliminar Reseña</button></a>
+                </div>
+            </div>
+            <br>
+        {% empty %}
+            &nbsp;&nbsp;&nbsp;<h2>No hay reseñas en este juego</h2>
+        {% endfor %}
     </div>
 {% endblock content %}

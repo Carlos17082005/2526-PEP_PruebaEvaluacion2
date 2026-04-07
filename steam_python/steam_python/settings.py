@@ -73,19 +73,34 @@ WSGI_APPLICATION = 'steam_python.wsgi.application'
 
 
 # Database
+# ******************* ORIGINAL *****************************
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'bd_steam_python',
+#        'USER': 'admin_steam',
+#        'PASSWORD': 'admin_steam',
+#        'HOST': 'localhost',
+#        'PORT': '3306',
+#    }
+#}
+# ******************* ORIGINAL *****************************
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
+
+# ******************* DOCKER con volumen MySQL *****************************
+# Conectarse mediante terminal: "docker exec -it mysql_db mysql -u pep_user -ppep_password pep_bd"
+DATABASES = { # BASE DE DATOS Docker
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bd_steam_python',
-        'USER': 'admin_steam',
-        'PASSWORD': 'admin_steam',
-        'HOST': 'localhost',
+        'NAME': 'pep_bd',
+        'USER': 'pep_user',
+        'PASSWORD': 'pep_password',
+        'HOST': 'db',       
         'PORT': '3306',
     }
 }
-
+# ******************* DOCKER con volumen MySQL *****************************
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

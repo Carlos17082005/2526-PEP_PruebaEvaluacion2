@@ -12,6 +12,13 @@
             <div class="nav-right">
                 <a href="{% url 'nuevo_juego' %}">+ Añadir Juego</a>
             </div>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <script>alert("{{ message }}");</script>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </header>
         <!-- nuevo HTML... -->
         {% if user.is_authenticated %}
