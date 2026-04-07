@@ -59,7 +59,7 @@ class VistaCrearJuego(LoginRequiredMixin, CreateView):
     model = Juego
     success_url = reverse_lazy("home")
     template_name = "nuevo_juego.html"
-    fields = ["nombre_juego", "imagen","autor"]
+    fields = ["nombre_juego", "imagen"]
 
     def form_valid(self, form):
         form.instance.autor = self.request.user
