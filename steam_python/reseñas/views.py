@@ -17,6 +17,13 @@ class VistaListaJuegos(ListView):
     model = Juego
     template_name = "home.html"
     context_object_name = "juegos"
+    
+    def get_queryset(self):
+        if (self.request.GET.get('buscar')):
+            nombre_buscado = self.request.GET.get('buscar')
+            return Juego.objects.filter(nombre_juego__icontains=nombre_buscado)
+        else:
+            return Juego.objects.filter()
 
 class VistaDetalleJuego(FormMixin, DetailView):
     model = Juego
@@ -52,7 +59,7 @@ class VistaCrearJuego(LoginRequiredMixin, CreateView):
     model = Juego
     success_url = reverse_lazy("home")
     template_name = "nuevo_juego.html"
-    fields = ["nombre_juego", "imagen","autor"]
+    fields = ["nombre_juego", "imagen"]
 
     def form_valid(self, form):
         form.instance.autor = self.request.user
