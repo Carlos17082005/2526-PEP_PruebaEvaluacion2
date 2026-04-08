@@ -5,18 +5,21 @@
             <input type="text" name="buscar">
             <input type="submit" value="🔍 Buscar">
         </form>
-        
     </div>
-    {% for juego in juegos %} 
-            <div style="border-width: 2px; border-color: black; border-style: solid; width: 200px;">
-                <a href="{% url 'detalle_juego' juego.pk %}">
-                    <img src="../media/{{ juego.imagen }}" alt="no se puede ver la imagen" style="width: 200px;"></p>
-                    <h2>{{ juego.nombre_juego }}</h2>
-                    <p>Creado por: {{ juego.autor }}</p>
-                </a>
-            </div> 
-        <br>
-    {% empty %}
-        &nbsp;&nbsp;&nbsp;<h2>No hay juegos registrados</h2>
-    {% endfor %}
+    <div class="games-grid">
+        {% for juego in juegos %} 
+                <div class="game-card">
+                    <a href="{% url 'detalle_juego' juego.pk %}">
+                        <img src="../media/{{ juego.imagen }}" alt="no se puede ver la imagen"></p>
+                        <div class="game-card-content">
+                            <h2>{{ juego.nombre_juego }}</h2>
+                            <p>Creado por: <span class="autor_colorido">{{ juego.autor }}</span></p>
+                        </div>
+                    </a>
+                </div> 
+            <br>
+        {% empty %}
+            <h2>No hay juegos registrados</h2>
+        {% endfor %}
+    </div>
 {% endblock content %}

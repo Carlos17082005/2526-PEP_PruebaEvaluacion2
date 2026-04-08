@@ -2,9 +2,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Añadir Nuevo Juego</h1>
-    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-        {{ form.as_p }} <br>
-        <input type="submit" value="Guardar">
-    </form>
+    <div class="form-container">
+        <h1>Añadir Nuevo Juego</h1>
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            {{ form.as_p }} <br>
+            <input type="submit" value="Guardar">
+        </form>
+    </div>
 {% endblock content %}

@@ -7,7 +7,7 @@
     <body>
         <header>
             <div class="nav-left">
-                <h1><a href="{% url 'home' %}">Django</a></h1>
+                <h1><a href="{% url 'home' %}">Steam Python</a></h1>
             </div>
             <div class="nav-right">
                 <a href="{% url 'nuevo_juego' %}">+ Añadir Juego</a>
@@ -20,21 +20,24 @@
                 {% endfor %}
             {% endif %}
         </header>
-        <!-- nuevo HTML... -->
-        {% if user.is_authenticated %}
-            <p>Hola {{ user.username }}!</p>
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Log Out</button>
-            </form>
-        {% else %}
-            <p>No has iniciado sesión.</p>
-            <a href="{% url 'login' %}">Log In</a>
-            <br>
-            <a href="{% url 'signup' %}">Sign Up</a>
-            <br><br>
-        {% endif %}
-        <!-- fin nuevo HTML... -->
-        <div>{% block content %} {% endblock content %}</div>
+        <div class="auth-section">
+            {% if user.is_authenticated %}
+                <h2>Hola <span>{{ user.username }}</span>!</h2>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn-logout" type="submit">Log Out</button>
+                </form>
+            {% else %}
+                <p>No has iniciado sesión.</p>
+                <a class="btn-auth outline" href="{% url 'login' %}">Log In</a>
+                <br>
+                <a class="btn-auth outline" href="{% url 'signup' %}">Sign Up</a>
+                <br><br>
+            {% endif %}
+        </div>
+
+        <main class="main-container">
+            {% block content %} {% endblock content %}
+        </main>
     </body>
 </html>
