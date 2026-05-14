@@ -8,7 +8,7 @@
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
             {{ form.as_p }} <br>
             <input type="submit" value="Guardar Cambios">
+            <a href="{% url 'detalle_juego' juego.pk %}"><button type="button" class="btn-cancel">Volver</button></a>
         </form>
-        <a href="{% url 'detalle_juego' juego.pk %}"><button> Volver a Detalles </button></a>
     </div>
 {% endblock content %}

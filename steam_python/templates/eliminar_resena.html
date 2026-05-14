@@ -1,23 +1,22 @@
-<!-- templates/eliminar_juego.html -->
+<!-- templates/eliminar_resena.html -->
 {% extends "base.html" %}
 
 {% block content %}
-    <div>
-        <h1>¿Seguro que quieres eliminar esta reseña ?</h1><br>
-        <div style="border: solid white 2px;border-radius: 7px; width: 500px; padding: 3px;opacity: 50%;">
-            <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
-            <h3 class="puntuacion_resena">Puntuación: {{resena.puntuacion}}</h3>
-            <p  >{{ resena.cuerpo }}</p>
-        </div>
-        <form action="" method="post">{% csrf_token %}
-            {{ form.as_p }}
-            
-            <div style="display: flex; gap: 10px; align-items: center; margin-top: 20px;">
-                <input type="submit" value="Sí, borrar definitivamente" 
-                       style="background-color: var(--danger-color); color: white; margin-top: 0;">
-                
-                <a href="{% url 'detalle_juego' resena.juego.pk %}"><button type="button" style="margin-top: 0; background-color: var(--text-muted); color: white;">Cancelar</button></a>
-            </div>
-        </form>
+    <h1>¿Seguro que quieres eliminar esta reseña?</h1>
+    <br>
+
+    <!-- Vista previa de la reseña a eliminar (atenuada) -->
+    <div class="review-card review-card--preview-danger">
+        <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
+        <h3 class="puntuacion_resena">Puntuación: {{ resena.puntuacion }}</h3>
+        <p class="texto_resena">{{ resena.cuerpo }}</p>
     </div>
+
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <input type="submit" value="Sí, borrar definitivamente" class="btn-submit-danger">
+            <a href="{% url 'detalle_juego' resena.juego.pk %}"><button type="button" class="btn-cancel">Cancelar</button></a>
+        </div>
+    </form>
 {% endblock content %}

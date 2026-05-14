@@ -2,17 +2,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>¿Seguro que quieres eliminar <span class="importante1">{{ object.nombre_juego }}</span> ?</h1>
+    <h1>¿Seguro que quieres eliminar <span class="importante1">{{ object.nombre_juego }}</span>?</h1>
     <br>
-    <img class="preview-img" src="/media/{{ object.imagen }}" alt="(imagen del juego no disponible)" style="opacity: 50%;">
+    <img class="preview-img preview-img--danger" src="/media/{{ object.imagen }}" alt="(imagen del juego no disponible)">
+
     <form action="" method="post">{% csrf_token %}
         {{ form.as_p }}
-        
-        <div style="display: flex; gap: 10px; align-items: center; margin-top: 20px;">
-            <input type="submit" value="Sí, borrar definitivamente" 
-                    style="background-color: var(--danger-color); color: white; margin-top: 0;">
-            
-            <a href="{% url 'detalle_juego' object.pk %}"><button type="button" style="margin-top: 0; background-color: var(--text-muted); color: white;">Cancelar</button></a>
+        <div class="form-actions">
+            <input type="submit" value="Sí, borrar definitivamente" class="btn-submit-danger">
+            <a href="{% url 'detalle_juego' object.pk %}"><button type="button" class="btn-cancel">Cancelar</button></a>
         </div>
     </form>
 {% endblock content %}

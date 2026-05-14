@@ -1,17 +1,17 @@
-<!-- templates/eliminar_juego.html -->
+<!-- templates/editar_resena.html -->
 {% extends "base.html" %}
 
 {% block content %}
     <div class="form-container">
-        <div class="review-edit">
-            <h3 class="autor_resena autor_y_puntuacion">Autor: <span class="autor_colorido">{{ resena.autor }}</span></h3>
-            <h3 class="puntuacion_resena autor_y_puntuacion" style="color: white;">Puntuación: <span class="autor_colorido">{{resena.puntuacion}}</span></h3>
-            <p class="texto_resena">{{ resena.cuerpo }}</p>
+        <!-- Vista previa de la reseña actual -->
+        <div>
+            <h3 class="autor_y_puntuacion">Autor: <span class="autor_colorido">{{ resena.autor }}</span></h3>
         </div>
+
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-            {{ form.as_p }} <br>
+            {{ form.as_p }}<br>
             <input type="submit" value="Guardar Cambios">
+            <a href="{% url 'detalle_juego' resena.juego.pk %}"><button type="button" class="btn-cancel">Volver</button></a>
         </form>
-        <a href="{% url 'detalle_juego' resena.juego.pk %}"><button> Volver a Detalles </button></a>
     </div>
 {% endblock content %}

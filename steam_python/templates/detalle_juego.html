@@ -19,22 +19,16 @@
                 Creado por: <span>{{ object.autor }}</span>
             </p>
 
-            <!-- Estadísticas de puntuación media -->
+            <!-- Estadísticas: número de reseñas y estrellas -->
             {% with total=object.resenas.count %}
                 {% if total > 0 %}
                 <div class="detalle-stats">
-                    {% with avg=object.resenas.all %}
-                        <div>
-                            <div class="avg-score">
-                                {% with puntuaciones=object.resenas.all %}
-                                    {{ puntuaciones|length }}
-                                {% endwith %}
-                            </div>
-                            <div class="avg-label">reseñas</div>
-                        </div>
-                    {% endwith %}
                     <div>
-                        <div style="color: var(--text-muted); font-size: 0.85rem;">
+                        <div class="avg-score">{{ total }}</div>
+                        <div class="avg-label">reseñas</div>
+                    </div>
+                    <div>
+                        <div class="stats-info">
                             {{ total }} {{ total|pluralize:"reseña,reseñas" }} publicada{{ total|pluralize:",s" }}
                         </div>
                         <div class="stars-outer" style="font-size:1.6rem; margin-top: 4px;">
@@ -62,12 +56,12 @@
     <!-- ============ RESEÑAS (form fijo izquierda + lista derecha) ============ -->
     <div class="apartado_resenas">
 
-        <!-- Panel izquierdo: escribir reseña (sticky) -->
+        <!-- Panel izquierdo: formulario para escribir reseña -->
         <div class="nueva_resenas form-container">
             <h3>Escribir Reseña</h3>
             {% if user.is_authenticated %}
                 {% if ya_reseno %}
-                    <p style="color: var(--accent-color); text-align: center;">
+                    <p class="resena-ya-hecha">
                         Ya has valorado este juego.<br>Puedes editar tu reseña desde la lista.
                     </p>
                 {% else %}
@@ -77,7 +71,7 @@
                     </form>
                 {% endif %}
             {% else %}
-                <p style="text-align:center; color: var(--text-muted);">
+                <p class="resena-login-prompt">
                     <a href="{% url 'login' %}">Inicia sesión</a> para escribir una reseña.
                 </p>
             {% endif %}
@@ -86,12 +80,12 @@
         <!-- Panel derecho: lista de reseñas -->
         <div class="reviews-list">
 
-            <!-- Tu reseña destacada -->
+            <!-- Reseña propia del usuario (destacada) -->
             {% if mi_resena %}
-                <div class="review-card" style="border: 2px solid var(--accent-color); background-color: rgba(0,210,255,0.04);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                <div class="review-card review-card--mine">
+                    <div class="review-card__header">
                         <h3 class="autor_resena">Tu Reseña</h3>
-                        <span style="color: var(--text-muted); font-size: 0.85rem;">{{ mi_resena.autor }}</span>
+                        <span class="review-card__username">{{ mi_resena.autor }}</span>
                     </div>
 
                     <div class="puntuacion_resena">
@@ -105,19 +99,19 @@
 
                     <div class="eliminar_resena">
                         <a href="{% url 'editar_resena' mi_resena.pk %}"><button>Editar</button></a>
-                        <a href="{% url 'eliminar_resena' mi_resena.pk %}"><button style="background:var(--danger-color);">Eliminar</button></a>
+                        <a href="{% url 'eliminar_resena' mi_resena.pk %}"><button class="btn-submit-danger">Eliminar</button></a>
                     </div>
                 </div>
 
                 {% if otras_resenas %}
-                    <hr style="border:0; border-top:1px solid rgba(255,255,255,0.08); margin: 4px 0;">
+                    <hr class="reviews-divider">
                 {% endif %}
             {% endif %}
 
             <!-- Resto de reseñas -->
             {% for resena in otras_resenas %}
                 <div class="review-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                    <div class="review-card__header">
                         <h3 class="autor_resena">{{ resena.autor }}</h3>
                     </div>
 
@@ -132,15 +126,13 @@
 
                     {% if resena.autor == user or user.is_staff %}
                         <div class="eliminar_resena">
-                            <a href="{% url 'eliminar_resena' resena.pk %}">
-                                <button style="background:var(--danger-color);">Eliminar</button>
-                            </a>
+                            <a href="{% url 'eliminar_resena' resena.pk %}"><button class="btn-submit-danger">Eliminar</button></a>
                         </div>
                     {% endif %}
                 </div>
             {% empty %}
                 {% if not mi_resena %}
-                    <p style="color: var(--text-muted); text-align: center; padding: 2rem 0;">
+                    <p class="reviews-empty">
                         Aún no hay reseñas. ¡Sé el primero en comentar!
                     </p>
                 {% endif %}
