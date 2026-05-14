@@ -113,7 +113,6 @@ class VistaEditarJuego(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class VistaEliminarResena(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Resena
     template_name = "eliminar_resena.html"
-    success_url = reverse_lazy("home")
 
     def test_func(self):
         return (self.get_object().autor == self.request.user) or (self.request.user.is_staff)
@@ -121,6 +120,9 @@ class VistaEliminarResena(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def handle_no_permission(self): 
         messages.error(self.request, "NO tienes permiso para BORRAR esta RESEÑA")
         return redirect("detalle_juego", pk=self.get_object().juego.pk)
+    
+    def get_success_url(self):
+        return reverse("detalle_juego", kwargs={"pk": self.object.juego.pk})
 
 class VistaEditarResena(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Resena
