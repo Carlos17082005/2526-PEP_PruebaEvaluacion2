@@ -16,10 +16,16 @@
         <div class="nueva_resenas form-container">
             <h3>Escribir Reseña</h3>
             {% if user.is_authenticated %}
-                <form action="" method="post">{% csrf_token %}
-                    {{ form.as_p }} <br>
-                    <input type="submit" value="Publicar Reseña">
-                </form>
+                {% if ya_reseno %}
+                    <p style="color: var(--accent-color);">
+                        Ya has valorado este juego. Puedes editar tu reseña abajo.
+                    </p>
+                {% else %}
+                    <form action="" method="post">{% csrf_token %}
+                        {{ form.as_p }} <br>
+                        <input type="submit" value="Publicar Reseña">
+                    </form>
+                {% endif %}
             {% else %}
                 <p>Por favor, inicia sesión para escribir una reseña.</p>
             {% endif %}

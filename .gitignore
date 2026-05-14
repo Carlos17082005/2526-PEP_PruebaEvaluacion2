@@ -10,3 +10,6 @@ __pycache__/
 
 # Carpeta donde se guardan las imagenes
 media/
+
+# Para datos de prueba
+seed.py

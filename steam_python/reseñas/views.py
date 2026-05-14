@@ -32,6 +32,19 @@ class VistaDetalleJuego(FormMixin, DetailView):
     # ****************** Crear Reseña *************************************
     form_class = ResenaForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ya_reseno'] = False # Por defecto asumimos que no ha comentado
+        
+        if self.request.user.is_authenticated:
+            # Comprobamos si hay alguna reseña de este usuario en este juego
+            context['ya_reseno'] = Resena.objects.filter(
+                juego=self.object,
+                autor=self.request.user
+            ).exists()
+            
+        return context
+
     def get_success_url(self):
         # Redirige a esta misma página tras publicar
         return reverse("detalle_juego", kwargs={"pk": self.object.pk})
