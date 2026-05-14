@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
 import os
 from django.urls import reverse
+from decimal import Decimal
 
 def upload_to(instance, filename):
     ext = filename.split('.')[-1]
@@ -25,13 +26,20 @@ class Resena(models.Model):
     juego = models.ForeignKey(Juego, on_delete=models.CASCADE, related_name="resenas")
     autor = models.ForeignKey("auth.User",on_delete=models.CASCADE)
     cuerpo = models.TextField()
-    puntuacion = models.IntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(50)]
+    puntuacion = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        validators=[MinValueValidator(Decimal('0.0')), MaxValueValidator(Decimal('5.0'))]
     )
+    @property
+    def porcentaje_estrellas(self):
+        if self.puntuacion:
+            return int(self.puntuacion * 20)
+        return 0
     
 
     def __str__(self):
-        return f"Reseña de {self.autor} para {self.juego.nombre_juego} ({self.puntuacion / 10})"
+        return f"Reseña de {self.autor} para {self.juego.nombre_juego} ({self.puntuacion / 5})"
 
     def get_absolute_url(self):
         return reverse("detalle_juego", kwargs={"pk": self.pk})

@@ -28,7 +28,12 @@
             {% for resena in object.resenas.all %} 
                 <div class="review-card">
                     <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
-                    <h3 class="puntuacion_resena">Puntuación: {{resena.puntuacion}}</h3>
+                    <div class="puntuacion_resena">
+                        <span class="score-number">Valoración: {{ resena.puntuacion|default:0|floatformat:"-1" }} / 5 </span>
+                        <div class="stars-outer">
+                            <div class="stars-inner" style="width: {{ resena.porcentaje_estrellas }}%;"></div>
+                        </div>
+                    </div>
                     <p class="texto_resena">{{ resena.cuerpo }}</p>
                     <div class="eliminar_resena">
                         <a href="{% url 'editar_resena' resena.pk %}"><button>Editar Reseña</button></a>
