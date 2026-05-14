@@ -128,8 +128,9 @@ class VistaEditarResena(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = ["cuerpo", "puntuacion"]
 
     def test_func(self):
-        return (self.get_object().autor == self.request.user) or (self.request.user.is_staff)
-
+        obj = self.get_object()
+        return obj.autor == self.request.user
+    
     def handle_no_permission(self): 
         messages.error(self.request, "NO tienes permiso para EDITAR esta RESEÑA")
         return redirect("detalle_juego", pk=self.get_object().juego.pk)

@@ -19,7 +19,7 @@
             <h3>Escribir Reseña</h3>
             {% if user.is_authenticated %}
                 {% if ya_reseno %}
-                    <p style="color: var(--accent-color);">
+                    <p style="color: var(--accent-color); text-align: center;">
                         Ya has valorado este juego. Puedes editar tu reseña abajo.
                     </p>
                 {% else %}
@@ -66,12 +66,11 @@
                     </div>
                     <p class="texto_resena">{{ resena.cuerpo }}</p>
                     
-                    {% if resena.autor == user or user.is_staff %}
-                        <div class="eliminar_resena">
-                            <a href="{% url 'editar_resena' resena.pk %}"><button>Editar Reseña</button></a>
+                    <div class="eliminar_resena">
+                        {% if resena.autor == user or user.is_staff %}
                             <a href="{% url 'eliminar_resena' resena.pk %}"><button>Eliminar Reseña</button></a>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
             {% empty %}
                 {% if not mi_resena %}
