@@ -33,7 +33,29 @@
             {% endif %}
         </div><br>
         <div class="reviews-list">
-            {% for resena in object.resenas.all %} 
+            {% if mi_resena %}
+                <div class="review-card" style="border: 2px solid var(--accent-color); background-color: rgba(0, 210, 255, 0.05);">
+                    <div style="display: flex; justify-content: space-between;">
+                        <h3 class="autor_resena">Tu Reseña ({{ mi_resena.autor }})</h3>
+                    </div>
+                    
+                    <div class="puntuacion_resena">
+                        <span class="score-number">Valoración: {{ mi_resena.puntuacion|default:0|floatformat:"-1" }} / 5 </span>
+                        <div class="stars-outer">
+                            <div class="stars-inner" style="width: {{ mi_resena.porcentaje_estrellas }}%;"></div>
+                        </div>
+                    </div>
+                    <p class="texto_resena">{{ mi_resena.cuerpo }}</p>
+                    
+                    <div class="eliminar_resena">
+                        <a href="{% url 'editar_resena' mi_resena.pk %}"><button>Editar Reseña</button></a>
+                        <a href="{% url 'eliminar_resena' mi_resena.pk %}"><button>Eliminar Reseña</button></a>
+                    </div>
+                </div>
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
+            {% endif %}
+
+            {% for resena in otras_resenas %}
                 <div class="review-card">
                     <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
                     <div class="puntuacion_resena">
@@ -51,9 +73,10 @@
                         </div>
                     {% endif %}
                 </div>
-                <br>
             {% empty %}
-                &nbsp;&nbsp;&nbsp;<h2>No hay reseñas en este juego</h2>
+                {% if not mi_resena %}
+                    <p>Aún no hay reseñas para este juego. ¡Sé el primero en comentar!</p>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

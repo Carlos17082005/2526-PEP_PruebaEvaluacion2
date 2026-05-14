@@ -34,15 +34,22 @@ class VistaDetalleJuego(FormMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['ya_reseno'] = False # Por defecto asumimos que no ha comentado
-        
-        if self.request.user.is_authenticated:
-            # Comprobamos si hay alguna reseña de este usuario en este juego
-            context['ya_reseno'] = Resena.objects.filter(
-                juego=self.object,
-                autor=self.request.user
-            ).exists()
+        user = self.request.user
+
+        if user.is_authenticated:
+            # Buscamos si el usuario tiene una reseña en este juego 
+            mi_resena = self.object.resenas.filter(autor=user).first()
             
+            context['mi_resena'] = mi_resena
+            # Guardamos el resto de reseñas excluyendo la del usuario
+            context['otras_resenas'] = self.object.resenas.exclude(autor=user)
+            # ya_reseno será True si existe mi_resena
+            context['ya_reseno'] = mi_resena is not None
+        else:
+            # Si no está logueado, no hay "mi_resena" y todas son "otras"
+            context['mi_resena'] = None
+            context['otras_resenas'] = self.object.resenas.all()
+            context['ya_reseno'] = False
         return context
 
     def get_success_url(self):
