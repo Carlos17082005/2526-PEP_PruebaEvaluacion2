@@ -6,8 +6,13 @@
     <br>
     <img class="preview-img" src="/media/{{ object.imagen }}" alt="(imagen del juego no disponible)" style="opacity: 50%;">
     <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }} <br>
-        <input type="submit" value="Si, borrar definitivamente">
+        {{ form.as_p }}
+        
+        <div style="display: flex; gap: 10px; align-items: center; margin-top: 20px;">
+            <input type="submit" value="Sí, borrar definitivamente" 
+                    style="background-color: var(--danger-color); color: white; margin-top: 0;">
+            
+            <a href="{% url 'detalle_juego' object.pk %}"><button type="button" style="margin-top: 0; background-color: var(--text-muted); color: white;">Cancelar</button></a>
+        </div>
     </form>
-    <a href="{% url 'detalle_juego' juego.pk%}"><button> Cancelar </button></a>
 {% endblock content %}

@@ -3,16 +3,21 @@
 
 {% block content %}
     <div>
-        <h1>¿Seguro que quieres eliminar esta reseña ?</h1>
-        <div style="border: solid white 2px;border-radius: 7px; width: 500px; padding: 3px;opacity: 50%;text-align: center;">
+        <h1>¿Seguro que quieres eliminar esta reseña ?</h1><br>
+        <div style="border: solid white 2px;border-radius: 7px; width: 500px; padding: 3px;opacity: 50%;">
             <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
             <h3 class="puntuacion_resena">Puntuación: {{resena.puntuacion}}</h3>
             <p  >{{ resena.cuerpo }}</p>
         </div>
         <form action="" method="post">{% csrf_token %}
-            {{ form.as_p }} <br>
-            <input type="submit" value="Si, borrar definitivamente">
+            {{ form.as_p }}
+            
+            <div style="display: flex; gap: 10px; align-items: center; margin-top: 20px;">
+                <input type="submit" value="Sí, borrar definitivamente" 
+                       style="background-color: var(--danger-color); color: white; margin-top: 0;">
+                
+                <a href="{% url 'detalle_juego' resena.juego.pk %}"><button type="button" style="margin-top: 0; background-color: var(--text-muted); color: white;">Cancelar</button></a>
+            </div>
         </form>
-        <a href="{% url 'detalle_juego' resena.juego.pk %}"><button> Cancelar </button></a>
     </div>
 {% endblock content %}

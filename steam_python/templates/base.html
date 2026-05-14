@@ -5,39 +5,47 @@
         <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     </head>
     <body>
+
+        <!-- ===== HEADER: Logo + Auth ===== -->
         <header>
             <div class="nav-left">
                 <h1><a href="{% url 'home' %}">Steam Python</a></h1>
             </div>
+
             <div class="nav-right">
-                <a href="{% url 'nuevo_juego' %}">+ Añadir Juego</a>
+                {% if user.is_authenticated %}
+                    <h2>Hola, <span>{{ user.username }}</span></h2>
+                    <form action="{% url 'logout' %}" method="post" style="margin:0">
+                        {% csrf_token %}
+                        <button class="btn-logout" type="submit">Log Out</button>
+                    </form>
+                {% else %}
+                    <a class="btn-auth" href="{% url 'login' %}">Log In</a>
+                    <a class="btn-auth" href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
             </div>
-            {% if messages %}
+        </header>
+
+        <!-- ===== SUBNAV: Acciones rápidas (sticky bajo el header) ===== -->
+        <nav class="subnav">
+            <a href="{% url 'nuevo_juego' %}">+ Añadir Juego</a>
+        </nav>
+
+        <!-- ===== ALERTAS flotantes ===== -->
+        {% if messages %}
+            <div class="header-alerts">
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
                         <script>alert("{{ message }}");</script>
                     </div>
                 {% endfor %}
-            {% endif %}
-        </header>
-        <div class="auth-section">
-            {% if user.is_authenticated %}
-                <h2>Hola <span>{{ user.username }}</span>!</h2>
-                <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn-logout" type="submit">Log Out</button>
-                </form>
-            {% else %}
-                <p>No has iniciado sesión.</p>
-                <a class="btn-auth outline" href="{% url 'login' %}">Log In</a>
-                <br>
-                <a class="btn-auth outline" href="{% url 'signup' %}">Sign Up</a>
-                <br><br>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
 
+        <!-- ===== CONTENIDO PRINCIPAL ===== -->
         <main class="main-container">
             {% block content %} {% endblock content %}
         </main>
+
     </body>
 </html>

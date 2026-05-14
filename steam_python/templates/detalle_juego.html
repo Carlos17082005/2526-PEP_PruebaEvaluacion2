@@ -1,82 +1,152 @@
 <!-- templates/detalle_juego.html -->
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
 {% block content %}
-    <div class="info_juego">
-        <h2>
-            {{ object.nombre_juego }} 
+
+    <!-- ============ CABECERA DEL JUEGO (dos columnas) ============ -->
+    <div class="detalle-layout">
+
+        <!-- Columna izquierda: portada -->
+        <div class="detalle-panel-img">
+            <img class="detalle-cover" src="/media/{{ object.imagen }}" alt="{{ object.nombre_juego }}">
+        </div>
+
+        <!-- Columna derecha: info y acciones -->
+        <div class="detalle-info">
+            <h2>{{ object.nombre_juego }}</h2>
+
+            <p class="detalle-meta">
+                Creado por: <span>{{ object.autor }}</span>
+            </p>
+
+            <!-- Estadísticas de puntuación media -->
+            {% with total=object.resenas.count %}
+                {% if total > 0 %}
+                <div class="detalle-stats">
+                    {% with avg=object.resenas.all %}
+                        <div>
+                            <div class="avg-score">
+                                {% with puntuaciones=object.resenas.all %}
+                                    {{ puntuaciones|length }}
+                                {% endwith %}
+                            </div>
+                            <div class="avg-label">reseñas</div>
+                        </div>
+                    {% endwith %}
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">
+                            {{ total }} {{ total|pluralize:"reseña,reseñas" }} publicada{{ total|pluralize:",s" }}
+                        </div>
+                        <div class="stars-outer" style="font-size:1.6rem; margin-top: 4px;">
+                            <div class="stars-inner" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Botones de edición (solo autor o staff) -->
             {% if object.autor == user or user.is_staff %}
-                <a href="{% url 'editar_juego' object.pk %}" class="btn-action"  ><button> Editar Juego </button></a>
-                <a href="{% url 'eliminar_juego' object.pk %}" class="btn-danger"><button> Eliminar Juego </button></a>
+                <div class="detalle-acciones">
+                    <a href="{% url 'editar_juego' object.pk %}" class="btn-action">
+                        <button>Editar Juego</button>
+                    </a>
+                    <a href="{% url 'eliminar_juego' object.pk %}" class="btn-danger">
+                        <button>Eliminar Juego</button>
+                    </a>
+                </div>
             {% endif %}
-        </h2>
-        <p>Creado por: {{ object.autor }}</p>
-        <img class="game-detail-img" src="/media/{{ object.imagen }}" alt="no se puede ver la imagen">
+        </div>
     </div>
-    <br><br>
+
+    <!-- ============ RESEÑAS (form fijo izquierda + lista derecha) ============ -->
     <div class="apartado_resenas">
+
+        <!-- Panel izquierdo: escribir reseña (sticky) -->
         <div class="nueva_resenas form-container">
             <h3>Escribir Reseña</h3>
             {% if user.is_authenticated %}
                 {% if ya_reseno %}
                     <p style="color: var(--accent-color); text-align: center;">
-                        Ya has valorado este juego. Puedes editar tu reseña abajo.
+                        Ya has valorado este juego.<br>Puedes editar tu reseña desde la lista.
                     </p>
                 {% else %}
                     <form action="" method="post">{% csrf_token %}
-                        {{ form.as_p }} <br>
+                        {{ form.as_p }}<br>
                         <input type="submit" value="Publicar Reseña">
                     </form>
                 {% endif %}
             {% else %}
-                <p>Por favor, inicia sesión para escribir una reseña.</p>
+                <p style="text-align:center; color: var(--text-muted);">
+                    <a href="{% url 'login' %}">Inicia sesión</a> para escribir una reseña.
+                </p>
             {% endif %}
-        </div><br>
+        </div>
+
+        <!-- Panel derecho: lista de reseñas -->
         <div class="reviews-list">
+
+            <!-- Tu reseña destacada -->
             {% if mi_resena %}
-                <div class="review-card" style="border: 2px solid var(--accent-color); background-color: rgba(0, 210, 255, 0.05);">
-                    <div style="display: flex; justify-content: space-between;">
-                        <h3 class="autor_resena">Tu Reseña ({{ mi_resena.autor }})</h3>
+                <div class="review-card" style="border: 2px solid var(--accent-color); background-color: rgba(0,210,255,0.04);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                        <h3 class="autor_resena">Tu Reseña</h3>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">{{ mi_resena.autor }}</span>
                     </div>
-                    
+
                     <div class="puntuacion_resena">
-                        <span class="score-number">Valoración: {{ mi_resena.puntuacion|default:0|floatformat:"-1" }} / 5 </span>
+                        <span class="score-number">{{ mi_resena.puntuacion|default:0|floatformat:"-1" }} / 5</span>
                         <div class="stars-outer">
                             <div class="stars-inner" style="width: {{ mi_resena.porcentaje_estrellas }}%;"></div>
                         </div>
                     </div>
+
                     <p class="texto_resena">{{ mi_resena.cuerpo }}</p>
-                    
+
                     <div class="eliminar_resena">
-                        <a href="{% url 'editar_resena' mi_resena.pk %}"><button>Editar Reseña</button></a>
-                        <a href="{% url 'eliminar_resena' mi_resena.pk %}"><button>Eliminar Reseña</button></a>
+                        <a href="{% url 'editar_resena' mi_resena.pk %}"><button>Editar</button></a>
+                        <a href="{% url 'eliminar_resena' mi_resena.pk %}"><button style="background:var(--danger-color);">Eliminar</button></a>
                     </div>
                 </div>
-                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
+
+                {% if otras_resenas %}
+                    <hr style="border:0; border-top:1px solid rgba(255,255,255,0.08); margin: 4px 0;">
+                {% endif %}
             {% endif %}
 
+            <!-- Resto de reseñas -->
             {% for resena in otras_resenas %}
                 <div class="review-card">
-                    <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                        <h3 class="autor_resena">{{ resena.autor }}</h3>
+                    </div>
+
                     <div class="puntuacion_resena">
-                        <span class="score-number">Valoración: {{ resena.puntuacion|default:0|floatformat:"-1" }} / 5 </span>
+                        <span class="score-number">{{ resena.puntuacion|default:0|floatformat:"-1" }} / 5</span>
                         <div class="stars-outer">
                             <div class="stars-inner" style="width: {{ resena.porcentaje_estrellas }}%;"></div>
                         </div>
                     </div>
+
                     <p class="texto_resena">{{ resena.cuerpo }}</p>
-                    
-                    <div class="eliminar_resena">
-                        {% if resena.autor == user or user.is_staff %}
-                            <a href="{% url 'eliminar_resena' resena.pk %}"><button>Eliminar Reseña</button></a>
-                        {% endif %}
-                    </div>
+
+                    {% if resena.autor == user or user.is_staff %}
+                        <div class="eliminar_resena">
+                            <a href="{% url 'eliminar_resena' resena.pk %}">
+                                <button style="background:var(--danger-color);">Eliminar</button>
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             {% empty %}
                 {% if not mi_resena %}
-                    <p>Aún no hay reseñas para este juego. ¡Sé el primero en comentar!</p>
+                    <p style="color: var(--text-muted); text-align: center; padding: 2rem 0;">
+                        Aún no hay reseñas. ¡Sé el primero en comentar!
+                    </p>
                 {% endif %}
             {% endfor %}
+
         </div>
     </div>
+
 {% endblock content %}
