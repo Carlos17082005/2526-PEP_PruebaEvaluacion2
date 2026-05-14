@@ -5,8 +5,10 @@
     <div class="info_juego">
         <h2>
             {{ object.nombre_juego }} 
-            <a href="{% url 'editar_juego' juego.pk %}" class="btn-action"  ><button> Editar Juego </button></a>
-            <a href="{% url 'eliminar_juego' juego.pk %}" class="btn-danger"><button> Eliminar Juego </button></a>
+            {% if object.autor == user or user.is_staff %}
+                <a href="{% url 'editar_juego' object.pk %}" class="btn-action"  ><button> Editar Juego </button></a>
+                <a href="{% url 'eliminar_juego' object.pk %}" class="btn-danger"><button> Eliminar Juego </button></a>
+            {% endif %}
         </h2>
         <p>Creado por: {{ object.autor }}</p>
         <img class="game-detail-img" src="/media/{{ object.imagen }}" alt="no se puede ver la imagen">
@@ -41,10 +43,13 @@
                         </div>
                     </div>
                     <p class="texto_resena">{{ resena.cuerpo }}</p>
-                    <div class="eliminar_resena">
-                        <a href="{% url 'editar_resena' resena.pk %}"><button>Editar Reseña</button></a>
-                        <a href="{% url 'eliminar_resena' resena.pk %}"><button>Eliminar Reseña</button></a>
-                    </div>
+                    
+                    {% if resena.autor == user or user.is_staff %}
+                        <div class="eliminar_resena">
+                            <a href="{% url 'editar_resena' resena.pk %}"><button>Editar Reseña</button></a>
+                            <a href="{% url 'eliminar_resena' resena.pk %}"><button>Eliminar Reseña</button></a>
+                        </div>
+                    {% endif %}
                 </div>
                 <br>
             {% empty %}
