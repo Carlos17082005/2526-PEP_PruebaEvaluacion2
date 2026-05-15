@@ -6,3 +6,6 @@ class ResenaForm(forms.ModelForm):
     class Meta:
         model = Resena
         fields = ["cuerpo", "puntuacion"]
+        widgets = {
+            'puntuacion': forms.NumberInput(attrs={'step': '0.1'})
+        }

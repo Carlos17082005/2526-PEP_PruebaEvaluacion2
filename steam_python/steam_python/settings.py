@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'reseñas', 'accounts'
+    'reseñas', 'accounts',
+    'django_cleanup.apps.CleanupConfig'
 ]
 
 MIDDLEWARE = [
@@ -90,17 +91,28 @@ WSGI_APPLICATION = 'steam_python.wsgi.application'
 
 # ******************* DOCKER con volumen MySQL *****************************
 # Conectarse mediante terminal: "docker exec -it mysql_db mysql -u pep_user -ppep_password pep_bd"
-DATABASES = { # BASE DE DATOS Docker
+#DATABASES = { # BASE DE DATOS Docker
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'pep_bd',
+#        'USER': 'pep_user',
+#        'PASSWORD': 'pep_password',
+#        'HOST': 'db',       
+#        'PORT': '3306',
+#    }
+#}
+# ******************* DOCKER con volumen MySQL *****************************
+
+
+# ******************* BD con SQLLite *****************************
+DATABASES = { # BASE DE DATOS SQLLite
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pep_bd',
-        'USER': 'pep_user',
-        'PASSWORD': 'pep_password',
-        'HOST': 'db',       
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 # ******************* DOCKER con volumen MySQL *****************************
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

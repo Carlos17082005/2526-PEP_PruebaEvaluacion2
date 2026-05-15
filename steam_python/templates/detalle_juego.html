@@ -1,44 +1,174 @@
-<!-- templates/detalle_juego.html -->
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
 {% block content %}
-    <div class="info_juego">
-        <h2>
-            {{ object.nombre_juego }} 
-            <a href="{% url 'editar_juego' juego.pk %}" class="btn-action"  ><button> Editar Juego </button></a>
-            <a href="{% url 'eliminar_juego' juego.pk %}" class="btn-danger"><button> Eliminar Juego </button></a>
-        </h2>
-        <p>Creado por: {{ object.autor }}</p>
-        <img class="game-detail-img" src="/media/{{ object.imagen }}" alt="no se puede ver la imagen">
-    </div>
-    <br><br>
-    <div class="apartado_resenas">
-        <div class="nueva_resenas form-container">
-            <h3>Escribir Reseña</h3>
-            {% if user.is_authenticated %}
-                <form action="" method="post">{% csrf_token %}
-                    {{ form.as_p }} <br>
-                    <input type="submit" value="Publicar Reseña">
-                </form>
-            {% else %}
-                <p>Por favor, inicia sesión para escribir una reseña.</p>
-            {% endif %}
-        </div><br>
-        <div class="reviews-list">
-            {% for resena in object.resenas.all %} 
-                <div class="review-card">
-                    <h3 class="autor_resena">Autor: {{ resena.autor }}</h3>
-                    <h3 class="puntuacion_resena">Puntuación: {{resena.puntuacion}}</h3>
-                    <p class="texto_resena">{{ resena.cuerpo }}</p>
-                    <div class="eliminar_resena">
-                        <a href="{% url 'editar_resena' resena.pk %}"><button>Editar Reseña</button></a>
-                        <a href="{% url 'eliminar_resena' resena.pk %}"><button>Eliminar Reseña</button></a>
+
+    <!-- ============ CABECERA DEL JUEGO (dos columnas) ============ -->
+    <div class="detalle-layout tw-grid tw-gap-8 tw-items-stretch tw-mb-10"
+         style="grid-template-columns: 380px 1fr;">
+
+        <!-- Columna izquierda: portada -->
+        <div class="tw-flex tw-flex-col">
+            <img class="detalle-cover tw-w-full tw-h-full tw-min-h-[200px] tw-rounded-xl tw-block tw-object-cover tw-object-top"
+                 style="box-shadow: 0 8px 30px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,210,255,0.15);"
+                 src="/media/{{ object.imagen }}"
+                 alt="{{ object.nombre_juego }}">
+        </div>
+
+        <!-- Columna derecha: info y acciones -->
+        <div class="tw-flex tw-flex-col tw-gap-4">
+
+            <h2 class="detalle-info tw-text-[2.2rem] tw-font-extrabold tw-text-white tw-leading-tight tw-pb-3">
+                {{ object.nombre_juego }}
+            </h2>
+
+            <p class="tw-flex tw-items-center tw-gap-2 tw-text-[#94a3b8] tw-text-[0.9rem]">
+                Creado por: <span class="tw-text-[#00d2ff] tw-font-semibold">{{ object.autor }}</span>
+            </p>
+
+            <!-- Estadísticas -->
+            {% with total=object.resenas.count %}
+                {% if total > 0 %}
+                    <div class="tw-rounded-[10px] tw-px-6 tw-py-5 tw-flex tw-items-center tw-gap-4"
+                         style="background: rgba(0,210,255,0.05); border: 1px solid rgba(0,210,255,0.15);">
+                        <div>
+                            <div class="tw-text-[2.5rem] tw-font-black tw-text-[#fbbf24] tw-leading-none">
+                                {{ media_puntuacion|floatformat:"1" }}
+                            </div>
+                            <div class="tw-text-[#94a3b8] tw-text-[0.85rem]">sobre 5</div>
+                        </div>
+                        <div>
+                            <div class="tw-text-[#94a3b8] tw-text-[0.85rem]">
+                                {{ total }} {{ total|pluralize:"reseña,reseñas" }} publicada{{ total|pluralize:",s" }}
+                            </div>
+                            <div class="stars-outer tw-text-[1.6rem] tw-mt-1">
+                                <div class="stars-inner" style="width: {{ porcentaje_media }}%;"></div>
+                            </div>
+                        </div>
                     </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Botones edición -->
+            {% if object.autor == user or user.is_staff %}
+                <div class="tw-flex tw-gap-2.5 tw-flex-wrap tw-mt-2">
+                    <a href="{% url 'editar_juego' object.pk %}" class="btn-action">
+                        <button class="tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#00d2ff] tw-text-[#0b0f19]">
+                            Editar Juego
+                        </button>
+                    </a>
+                    <a href="{% url 'eliminar_juego' object.pk %}" class="btn-danger">
+                        <button class="tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#ef4444] tw-text-white">
+                            Eliminar Juego
+                        </button>
+                    </a>
                 </div>
-                <br>
-            {% empty %}
-                &nbsp;&nbsp;&nbsp;<h2>No hay reseñas en este juego</h2>
-            {% endfor %}
+            {% endif %}
         </div>
     </div>
+
+    <!-- ============ RESEÑAS ============ -->
+    <div class="apartado_resenas tw-grid tw-gap-8 tw-items-start"
+         style="grid-template-columns: 380px 1fr;">
+
+        <!-- Panel izquierdo: formulario -->
+        <div class="form-container tw-bg-[#151b2b] tw-p-8 tw-rounded-lg tw-shadow-xl">
+            <h3 class="tw-mb-6 tw-text-[#00d2ff] tw-text-center">Escribir Reseña</h3>
+            {% if user.is_authenticated %}
+                {% if ya_reseno %}
+                    <p class="resena-ya-hecha tw-text-[#00d2ff] tw-text-center">
+                        Ya has valorado este juego.<br>Puedes editar tu reseña desde la lista.
+                    </p>
+                {% else %}
+                    <form action="" method="post">{% csrf_token %}
+                        {{ form.as_p }}<br>
+                        <input type="submit" value="Publicar Reseña"
+                               class="tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#00d2ff] tw-text-black">
+                    </form>
+                {% endif %}
+            {% else %}
+                <p class="tw-text-center tw-text-[#94a3b8]">
+                    <a href="{% url 'login' %}">Inicia sesión</a> para escribir una reseña.
+                </p>
+            {% endif %}
+        </div>
+
+        <!-- Panel derecho: lista de reseñas -->
+        <div class="tw-flex tw-flex-col tw-gap-4">
+
+            <!-- Reseña propia -->
+            {% if mi_resena %}
+                <div class="review-card review-card--mine tw-bg-[rgba(0,210,255,0.04)] tw-p-6 tw-rounded-lg"
+                     style="border: 2px solid #00d2ff;">
+                    <div class="tw-flex tw-justify-between tw-items-center tw-flex-wrap tw-gap-2 tw-mb-2">
+                        <h3 class="tw-text-[#00d2ff] tw-text-[1.1rem] tw-mb-0">Tu Reseña</h3>
+                        <span class="tw-text-[#94a3b8] tw-text-sm">{{ mi_resena.autor }}</span>
+                    </div>
+
+                    <div class="tw-flex tw-items-center tw-gap-2.5 tw-text-[#fbbf24] tw-text-[1.1rem] tw-font-bold tw-mb-4">
+                        <span>{{ mi_resena.puntuacion|default:0|floatformat:"-1" }} / 5</span>
+                        <div class="stars-outer">
+                            <div class="stars-inner" style="width: {{ mi_resena.porcentaje_estrellas }}%;"></div>
+                        </div>
+                    </div>
+
+                    <p class="tw-text-[#e2e8f0] tw-leading-relaxed">{{ mi_resena.cuerpo }}</p>
+
+                    <div class="tw-mt-4 tw-flex tw-gap-2.5">
+                        <a href="{% url 'editar_resena' mi_resena.pk %}">
+                            <button class="tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#00d2ff] tw-text-black">
+                                Editar
+                            </button>
+                        </a>
+                        <a href="{% url 'eliminar_resena' mi_resena.pk %}">
+                            <button class="btn-submit-danger tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#ef4444] tw-text-white">
+                                Eliminar
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+                {% if otras_resenas %}
+                    <hr class="tw-border-0 tw-border-t tw-border-white/[0.08] tw-my-1">
+                {% endif %}
+            {% endif %}
+
+            <!-- Resto de reseñas -->
+            {% for resena in otras_resenas %}
+                <div class="review-card tw-bg-[#151b2b] tw-p-6 tw-rounded-lg tw-border tw-border-white/5">
+
+                    <div class="tw-flex tw-justify-between tw-items-center tw-flex-wrap tw-gap-2 tw-mb-2">
+                        <h3 class="tw-text-[#00d2ff] tw-text-[1.1rem]">{{ resena.autor }}</h3>
+                    </div>
+
+                    <div class="tw-flex tw-items-center tw-gap-2.5 tw-text-[#fbbf24] tw-text-[1.1rem] tw-font-bold tw-mb-4">
+                        <span>{{ resena.puntuacion|default:0|floatformat:"-1" }} / 5</span>
+                        <div class="stars-outer">
+                            <div class="stars-inner" style="width: {{ resena.porcentaje_estrellas }}%;"></div>
+                        </div>
+                    </div>
+
+                    <p class="tw-text-[#e2e8f0] tw-leading-relaxed">{{ resena.cuerpo }}</p>
+
+                    {% if resena.autor == user or user.is_staff %}
+                        <div class="tw-mt-4 tw-flex tw-gap-2.5">
+                            <a href="{% url 'eliminar_resena' resena.pk %}">
+                                <button class="btn-submit-danger tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#ef4444] tw-text-white">
+                                    Eliminar
+                                </button>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+            {% empty %}
+                {% if not mi_resena %}
+                    <p class="tw-text-[#94a3b8] tw-text-center tw-py-8">
+                        Aún no hay reseñas. ¡Sé el primero en comentar!
+                    </p>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+
 {% endblock content %}

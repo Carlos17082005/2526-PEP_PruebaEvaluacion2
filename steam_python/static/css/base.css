@@ -1,24 +1,32 @@
 /* =========================================
-   VARIABLES Y CONFIGURACIÓN BASE
+   VARIABLES GLOBALES
    ========================================= */
 :root {
-    --bg-main: #0b0f19;        /* Azul muy oscuro, casi negro */
-    --bg-card: #151b2b;        /* Azul oscuro para tarjetas */
-    --bg-header: #111827;      /* Color de cabecera */
-    
-    --text-main: #e2e8f0;      /* Blanco roto/Gris claro */
-    --text-muted: #94a3b8;     /* Gris medio */
-    
-    --accent-color: #00d2ff;   /* Cian neón */
-    --accent-hover: #3a7bd5;   /* Azul eléctrico */
-    --danger-color: #ef4444;   /* Rojo vivo para borrar */
-    --danger-hover: #dc2626;   /* Rojo más oscuro */
-    
-    --border-radius: 8px;
-    --transition-speed: 0.3s;
+    --bg-main:      #0b0f19;
+    --bg-card:      #151b2b;
+    --bg-header:    #111827;
+    --bg-subnav:    #0d1420;
+
+    --text-main:    #e2e8f0;
+    --text-muted:   #94a3b8;
+
+    --accent-color: #00d2ff;
+    --accent-hover: #3a7bd5;
+    --danger-color: #ef4444;
+    --danger-hover: #dc2626;
+
+    --border-radius:     8px;
+    --transition-speed:  0.3s;
+
+    --left-col:       380px;
+    --card-width:      200px;
+    --card-img-height: 160px;
 }
 
-* {
+/* =========================================
+   RESET BÁSICO
+   ========================================= */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -42,321 +50,78 @@ a:hover {
 }
 
 /* =========================================
-   HEADER Y NAVEGACIÓN
+   HEADER
    ========================================= */
-header {
-    background-color: var(--bg-header);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-
-
-.nav-left h1 a {    
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    
-    /* Transición Suave */
+/* text-shadow no tiene clase Tailwind estándar */
+.nav-left h1 a {
     text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
-    transition: text-shadow 0.5s ; 
+    transition: text-shadow 0.5s;
 }
 
 .nav-left h1 a:hover {
-    text-shadow: 0px 0px 50px rgb(0, 208, 255);
+    text-shadow: 0 0 50px rgb(0, 208, 255);
 }
 
-.nav-right a {
+/* =========================================
+   SUBNAV
+   ========================================= */
+/* gradiente + box-shadow de color específico */
+.subnav a {
     background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
     box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-.nav-right a:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, orangered, rgb(241, 181, 0));
+.subnav a:hover {
+    box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4);
+    color: #000;
 }
 
 /* =========================================
-   AUTENTICACIÓN (LOGIN/LOGOUT)
+   BOTONES AUTH / LOGOUT
    ========================================= */
-.auth-section {
-    background-color: var(--bg-card);
-    padding: 10px 2rem;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 15px;
-    font-size: 0.9rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+.btn-auth,
+.btn-logout {
+    transition: all var(--transition-speed);
 }
 
-.auth-section span {
-    color: var(--accent-color);
-    font-weight: bold;
-}
-
-.btn-auth, .btn-logout {
-    background-color: var(--accent-hover);
-    color: white;
-    padding: 5px 15px;
-    border-radius: var(--border-radius);
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background var(--transition-speed);
-}
-
-.btn-auth.outline {
-    background-color: transparent;
-    border: 1px solid var(--accent-color);
-    color: var(--accent-color);
-}
-
-.btn-auth.outline:hover, .btn-logout:hover {
+.btn-auth:hover,
+.btn-logout:hover {
     background-color: var(--accent-color);
     color: #000;
 }
 
 /* =========================================
-   CONTENEDOR PRINCIPAL Y COMPONENTES
+   ESTRELLAS (pseudoelementos, imposible con Tailwind)
    ========================================= */
-.main-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 20px;
-}
-
-/* Buscador */
-.buscador {
-    margin-bottom: 2rem;
-    display: flex;
-    justify-content: center;
-}
-
-.buscador form {
-    display: flex;
-    width: 100%;
-    max-width: 500px;
-}
-
-.buscador input[type="text"] {
-    flex: 1;
-    padding: 12px 20px;
-    border: 1px solid #334155;
-    background-color: var(--bg-card);
-    color: white;
-    border-radius: 25px 0 0 25px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color var(--transition-speed);
-}
-
-.buscador input[type="text"]:focus {
-    border-color: var(--accent-color);
-}
-
-.buscador input[type="submit"] {
-    padding: 12px 25px;
-    background-color: var(--accent-color);
-    color: #000;
-    font-weight: bold;
-    border: none;
-    border-radius: 0 25px 25px 0;
-    cursor: pointer;
-    transition: background var(--transition-speed);
-    margin-top: 0px;
-}
-
-.buscador input[type="submit"]:hover {
-    background-color: var(--accent-hover);
-    color: white;
-    margin-top: 0px;
-    display: flex;
-    transform: translateY(0px);
-}
-
-/* =========================================
-   GRILLA DE JUEGOS (HOME)
-   ========================================= */
-.games-grid {
-    display: ruby;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    justify-items: self-start;
-}
-
-.game-card {
-    background-color: var(--bg-card);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    border: 1px solid rgba(255,255,255,0.05);
-    margin-block-end: 1rem;
-    margin-inline: 1rem;
-}
-
-.game-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0, 210, 255, 0.15);
-    border-color: rgba(0, 210, 255, 0.3);
-}
-
-.game-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 2px solid var(--accent-hover);
-}
-
-.game-card-content {
-    padding: 1.5rem;
-}
-
-.game-card h2 {
+.stars-outer {
+    display: inline-block;
+    position: relative;
     font-size: 1.4rem;
-    margin-bottom: 0.5rem;
-    color: white;
-}
-
-.game-card p {
     color: var(--text-muted);
-    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+.stars-outer::before {
+    content: "★ ★ ★ ★ ★";
+}
+
+.stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #fbbf24;
+}
+
+.stars-inner::before {
+    content: "★ ★ ★ ★ ★";
 }
 
 /* =========================================
-   DETALLE DE JUEGO Y RESEÑAS
+   FORMULARIOS — inputs de Django (generados por {{ form }})
    ========================================= */
-.info_juego {
-    background-color: var(--bg-card);
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    border-left: 5px solid var(--accent-color);
-    max-width: 40rem;
-}
-
-.info_juego h2 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.game-detail-img {
-    max-width: 30rem;
-    border-radius: var(--border-radius);
-    margin-top: 1rem;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-}
-
-.reviews-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    margin-top: 1rem;
-}
-
-.review-card {
-    background-color: var(--bg-card);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    border: 1px solid rgba(255,255,255,0.05);
-    position: relative;
-}
-
-/* =========================================
-   CAJA DE PREVISUALIZACIÓN / EDICIÓN (.review-edit)
-   ========================================= */
-.review-edit {
-    background-color: #ffffff0b; /* Un azul un poco más claro que el fondo general y las tarjetas */
-    padding: 1.8rem;
-    border-radius: var(--border-radius);
-    /* Usamos un borde punteado o distinto para denotar que es un elemento en edición */
-    border: 2px double var(--accent-hover); 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(58, 123, 213, 0.1);
-    margin-bottom: 2rem;
-    position: relative;
-}
-
-.review-edit .autor_resena {
-    margin-top: 5px;
-    color: white;
-}
-
-.review-edit .texto_resena {
-    background-color: rgba(0, 0, 0, 0.2); 
-    padding: 15px;
-    border-radius: 6px;
-    border-left: 3px solid var(--accent-color);
-}
-
-.autor_colorido{
-    color: orangered;
-}
-
-.autor_y_puntuacion{
-    background-color: rgba(0, 0, 0, 0.2);
-    border-left:#00d2ff solid 5px;
-    border-right: white 1px solid;
-    border-bottom: white 1px solid;
-    border-top: white 1px solid;
-    border-radius: 5px;
-}
-
-.autor_resena {
-    color: var(--accent-color);
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
-
-.puntuacion_resena {
-    color: #fbbf24; /* Amarillo oro para la puntuación */
-    font-size: 1rem;
-    margin-bottom: 15px;
-}
-
-.texto_resena {
-    font-size: 1rem;
-    color: var(--text-main);
-    line-height: 1.8;
-    border-right: white 1px solid;
-    border-bottom: white 1px solid;
-    border-top: white 1px solid;
-}
-
-/* =========================================
-   FORMULARIOS (Añadir, Editar, Auth)
-   ========================================= */
-.form-container {
-    background-color: var(--bg-card);
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    max-width: 100rem;
-    margin: 0 auto;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-}
-
-.form-container h1, .form-container h2, .form-container h3 {
-    margin-bottom: 1.5rem;
-    color: var(--accent-color);
-    text-align: center;
-}
-
 form p {
     margin-bottom: 1rem;
 }
@@ -368,8 +133,12 @@ form label {
     color: var(--text-muted);
 }
 
-form input[type="text"],form input[type="password"],form input[type="number"],
-form input[type="email"],form textarea,form select {
+form input[type="text"],
+form input[type="password"],
+form input[type="number"],
+form input[type="email"],
+form textarea,
+form select {
     width: 100%;
     padding: 10px 15px;
     border-radius: var(--border-radius);
@@ -380,7 +149,8 @@ form input[type="email"],form textarea,form select {
     transition: border var(--transition-speed);
 }
 
-form input:focus, form textarea:focus {
+form input:focus,
+form textarea:focus {
     outline: none;
     border-color: var(--accent-color);
     box-shadow: 0 0 5px rgba(0, 210, 255, 0.3);
@@ -392,76 +162,132 @@ form textarea {
 }
 
 /* =========================================
-   BOTONES
+   INPUT FILE (pseudo-elemento ::file-selector-button)
    ========================================= */
-button, input[type="submit"] {
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--border-radius);
-    font-weight: bold;
+input[type="file"] {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
     cursor: pointer;
-    transition: all var(--transition-speed);
-    background-color: var(--accent-color);
-    color: #000;
-    margin-top: 10px;
+    width: 100%;
+    font-family: inherit;
 }
 
-button:hover, input[type="submit"]:hover {
+input[type="file"]::file-selector-button {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: var(--accent-hover);
+    filter: brightness(1.1);
+}
+
+input[type="file"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2);
+}
+
+/* =========================================
+   BOTONES — transiciones y variantes de color
+   ========================================= */
+button,
+input[type="submit"] {
+    transition: all var(--transition-speed);
+}
+
+button:hover,
+input[type="submit"]:hover {
     background-color: var(--accent-hover);
     color: white;
     transform: translateY(-2px);
 }
 
-.btn-danger button {
-    color: var(--bg-main);
+.btn-action button:hover {
+    background-color: var(--accent-hover);
+    color: white;
 }
 
 .btn-danger button:hover {
     background-color: var(--danger-hover);
-    color: rgb(255, 255, 255);
 }
 
-.btn-action button {
-    color: var(--bg-main);
+input[type="submit"].btn-submit-danger:hover,
+.btn-submit-danger:hover {
+    background-color: var(--danger-hover);
+    color: white;
 }
 
-.btn-action button:hover {
-    background-color: var(--accent-hover);
-    color: rgb(255, 255, 255);
+/* =========================================
+   GAME CARD — hover con colores CSS vars
+   ========================================= */
+.game-card {
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
 }
 
-.small {
-    padding: 5px 10px;
-    font-size: 0.8rem;
+.game-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 210, 255, 0.15);
+    border-color: rgba(0, 210, 255, 0.3);
 }
 
-.eliminar_resena {
-    margin-top: 15px;
-    display: flex;
-    gap: 10px;
+/* =========================================
+   REVIEW CARD — hover
+   ========================================= */
+.review-card {
+    transition: border-color var(--transition-speed);
 }
 
-/* Previsualización de imágenes al eliminar/editar */
-.preview-img {
-    width: 100%;
-    max-width: 300px;
-    border-radius: var(--border-radius);
-    margin-bottom: 1rem;
-    border: 2px solid #334155;
+.review-card:hover {
+    border-color: rgba(0, 210, 255, 0.15);
 }
 
-.importante1 {
-    color: var(--danger-color);
-    text-decoration: underline;
+/* =========================================
+   DETALLE — borde inferior con color CSS var
+   ========================================= */
+.detalle-info h2 {
+    border-bottom: 2px solid rgba(0, 210, 255, 0.2);
 }
 
-/* Alertas de Django */
-.alert {
-    padding: 15px;
-    margin: 10px 20px;
-    border-radius: var(--border-radius);
+/* =========================================
+   BUSCADOR — bordes redondeados asimétricos
+   ========================================= */
+.buscador input[type="text"] {
+    border-radius: 25px 0 0 25px;
+    transition: border-color var(--transition-speed);
+}
+
+.buscador input[type="text"]:focus {
+    border-color: var(--accent-color);
+}
+
+.buscador input[type="submit"] {
+    border-radius: 0 25px 25px 0;
+    margin-top: 0;
+    transition: background var(--transition-speed);
+}
+
+.buscador input[type="submit"]:hover {
     background-color: var(--accent-hover);
     color: white;
-    text-align: center;
 }
 
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 820px) {
+    .detalle-layout,
+    .apartado_resenas {
+        grid-template-columns: 1fr;
+    }
+}

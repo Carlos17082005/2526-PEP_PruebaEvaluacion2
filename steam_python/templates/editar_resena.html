@@ -1,17 +1,24 @@
-<!-- templates/eliminar_juego.html -->
+<!-- editar_resena.html -->
 {% extends "base.html" %}
-
 {% block content %}
-    <div class="form-container">
-        <div class="review-edit">
-            <h3 class="autor_resena autor_y_puntuacion">Autor: <span class="autor_colorido">{{ resena.autor }}</span></h3>
-            <h3 class="puntuacion_resena autor_y_puntuacion" style="color: white;">Puntuación: <span class="autor_colorido">{{resena.puntuacion}}</span></h3>
-            <p class="texto_resena">{{ resena.cuerpo }}</p>
+    <div class="form-container tw-bg-[#151b2b] tw-p-8 tw-rounded-lg tw-mx-auto tw-shadow-2xl">
+        <div class="tw-mb-4">
+            <h3 class="autor_y_puntuacion tw-bg-black/20 tw-border-l-[5px] tw-border-[#00d2ff] tw-rounded tw-px-3 tw-py-1">
+                Autor: <span class="autor_colorido">{{ resena.autor }}</span>
+            </h3>
         </div>
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-            {{ form.as_p }} <br>
-            <input type="submit" value="Guardar Cambios">
+            {{ form.as_p }}<br>
+            <div class="tw-flex tw-gap-2.5 tw-items-center tw-mt-5">
+                <input type="submit" value="Guardar Cambios"
+                       class="tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#00d2ff] tw-text-black">
+                <a href="{% url 'detalle_juego' resena.juego.pk %}">
+                    <button type="button"
+                            class="btn-cancel tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#94a3b8] tw-text-white">
+                        Volver
+                    </button>
+                </a>
+            </div>
         </form>
-        <a href="{% url 'detalle_juego' resena.juego.pk %}"><button> Volver a Detalles </button></a>
     </div>
 {% endblock content %}

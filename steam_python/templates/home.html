@@ -1,25 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="buscador">
-        <form action="" method="get">
-            <input type="text" name="buscar">
-            <input type="submit" value="🔍 Buscar">
+
+    <!-- BUSCADOR -->
+    <div class="tw-mb-8 tw-flex tw-justify-center">
+        <form action="" method="get" class="tw-flex tw-w-full tw-max-w-[520px]">
+            <input class="tw-flex-1 tw-px-5 tw-py-3 tw-rounded-l-full tw-border tw-border-[#334155] tw-bg-[#151b2b] tw-text-white tw-text-base tw-outline-none"
+                   type="text" name="buscar">
+            <input class="tw-px-6 tw-py-3 tw-bg-[#00d2ff] tw-text-black tw-font-bold tw-rounded-r-full tw-border-0 tw-cursor-pointer tw-mt-0"
+                   type="submit" value="Buscar">
         </form>
     </div>
-    <div class="games-grid">
-        {% for juego in juegos %} 
-                <div class="game-card">
-                    <a href="{% url 'detalle_juego' juego.pk %}">
-                        <img src="../media/{{ juego.imagen }}" alt="no se puede ver la imagen"></p>
-                        <div class="game-card-content">
-                            <h2>{{ juego.nombre_juego }}</h2>
-                            <p>Creado por: <span class="autor_colorido">{{ juego.autor }}</span></p>
-                        </div>
-                    </a>
-                </div> 
-            <br>
+
+    <!-- GRID DE JUEGOS -->
+    <div class="tw-grid tw-gap-6 tw-w-full"
+         style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+
+        {% for juego in juegos %}
+            <div class="game-card tw-bg-[#151b2b] tw-rounded-lg tw-overflow-hidden tw-shadow-md tw-border tw-border-white/5 tw-flex tw-flex-col">
+                <a href="{% url 'detalle_juego' juego.pk %}" class="tw-flex tw-flex-col tw-h-full tw-text-inherit">
+                    <img src="../media/{{ juego.imagen }}"
+                         alt="no se puede ver la imagen"
+                         class="tw-w-full tw-object-cover tw-block tw-border-b-2 tw-border-[#3a7bd5]"
+                         style="height: 160px;">
+                    <div class="tw-p-4 tw-flex-1 tw-flex tw-flex-col tw-justify-end">
+                        <h2 class="tw-text-[1.1rem] tw-mb-1 tw-text-white tw-leading-snug">{{ juego.nombre_juego }}</h2>
+                        <p class="tw-text-[#94a3b8] tw-text-sm">
+                            Creado por: <span class="autor_colorido">{{ juego.autor }}</span>
+                        </p>
+                    </div>
+                </a>
+            </div>
         {% empty %}
-            <h2>No hay juegos registrados</h2>
+            <h2 class="tw-text-[#94a3b8]">No hay juegos registrados</h2>
         {% endfor %}
+
     </div>
 {% endblock content %}
