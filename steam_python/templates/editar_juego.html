@@ -1,14 +1,25 @@
-<!-- templates/eliminar_juego.html -->
+<!-- editar_juego.html -->
 {% extends "base.html" %}
-
 {% block content %}
-    <div class="form-container">
-        <h1>Editar:  <span class="autor_colorido">{{ object.nombre_juego }}</span> </h1>
-        <img src="/media/{{ object.imagen }}" alt="(imagen del juego no disponible)" class="preview-img">
+    <div class="form-container tw-bg-[#151b2b] tw-p-8 tw-rounded-lg tw-mx-auto tw-shadow-2xl">
+        <h1 class="tw-mb-6 tw-text-[#00d2ff] tw-text-center">
+            Editar: <span class="autor_colorido">{{ object.nombre_juego }}</span>
+        </h1>
+        <img src="/media/{{ object.imagen }}"
+             alt="(imagen del juego no disponible)"
+             class="preview-img tw-w-full tw-max-w-[300px] tw-rounded-lg tw-mb-4 tw-border-2 tw-border-[#334155]">
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
             {{ form.as_p }} <br>
-            <input type="submit" value="Guardar Cambios">
-            <a href="{% url 'detalle_juego' juego.pk %}"><button type="button" class="btn-cancel">Volver</button></a>
+            <div class="tw-flex tw-gap-2.5 tw-items-center tw-mt-5">
+                <input type="submit" value="Guardar Cambios"
+                       class="tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#00d2ff] tw-text-black">
+                <a href="{% url 'detalle_juego' juego.pk %}">
+                    <button type="button"
+                            class="btn-cancel tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#94a3b8] tw-text-white">
+                        Volver
+                    </button>
+                </a>
+            </div>
         </form>
     </div>
 {% endblock content %}

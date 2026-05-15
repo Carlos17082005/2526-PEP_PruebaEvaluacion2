@@ -1,11 +1,14 @@
+<!-- signup.html -->
 {% extends "base.html" %}
-
 {% block content %}
-    <div class="form-container">
-        <h2>Sign Up</h2>
+    <div class="form-container tw-bg-[#151b2b] tw-p-8 tw-rounded-lg tw-mx-auto tw-shadow-2xl tw-max-w-md">
+        <h2 class="tw-mb-6 tw-text-[#00d2ff] tw-text-center">Sign Up</h2>
         <form method="post">{% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Sign Up</button>
+            <button type="submit"
+                    class="tw-px-5 tw-py-2.5 tw-border-0 tw-rounded-lg tw-font-bold tw-cursor-pointer tw-bg-[#00d2ff] tw-text-black tw-w-full">
+                Sign Up
+            </button>
         </form>
     </div>
 {% endblock content %}

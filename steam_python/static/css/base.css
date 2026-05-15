@@ -18,10 +18,7 @@
     --border-radius:     8px;
     --transition-speed:  0.3s;
 
-    /* Anchuras de columna usadas en detalle y reseñas */
     --left-col:       380px;
-
-    /* Tarjetas del home */
     --card-width:      200px;
     --card-img-height: 160px;
 }
@@ -55,25 +52,8 @@ a:hover {
 /* =========================================
    HEADER
    ========================================= */
-header {
-    background-color: var(--bg-header);
-    padding: 0.75rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    border-bottom: 1px solid rgba(0, 210, 255, 0.1);
-}
-
+/* text-shadow no tiene clase Tailwind estándar */
 .nav-left h1 a {
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-transform: uppercase;
     text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
     transition: text-shadow 0.5s;
 }
@@ -82,69 +62,26 @@ header {
     text-shadow: 0 0 50px rgb(0, 208, 255);
 }
 
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.nav-right h2 {
-    font-size: 0.95rem;
-    font-weight: 400;
-    color: var(--text-muted);
-}
-
-.nav-right h2 span {
-    color: var(--accent-color);
-    font-weight: 700;
-}
-
 /* =========================================
-   SUBNAV — barra sticky bajo el header
+   SUBNAV
    ========================================= */
-.subnav {
-    background-color: var(--bg-subnav);
-    padding: 0.5rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    position: sticky;
-    top: 71px; /* justo bajo el header */
-    z-index: 150;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
+/* gradiente + box-shadow de color específico */
 .subnav a {
     background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-    color: #000;
-    padding: 7px 18px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.9rem;
     box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
 .subnav a:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4);
     color: #000;
 }
 
 /* =========================================
-   BOTONES DE AUTENTICACIÓN (header)
+   BOTONES AUTH / LOGOUT
    ========================================= */
 .btn-auth,
 .btn-logout {
-    background-color: transparent;
-    border: 1px solid var(--accent-color);
-    color: var(--accent-color);
-    padding: 5px 15px;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
     transition: all var(--transition-speed);
 }
 
@@ -155,384 +92,7 @@ header {
 }
 
 /* =========================================
-   ALERTAS FLOTANTES
-   ========================================= */
-.header-alerts {
-    position: fixed;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 300;
-    min-width: 300px;
-}
-
-.alert {
-    padding: 12px 20px;
-    border-radius: var(--border-radius);
-    background-color: rgba(58, 123, 213, 0.9);
-    color: white;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
-    white-space: nowrap;
-}
-
-/* =========================================
-   CONTENEDOR PRINCIPAL
-   ========================================= */
-.main-container {
-    max-width: 1400px;
-    margin: 2rem auto;
-    padding: 0 24px;
-}
-
-/* =========================================
-   BUSCADOR (home)
-   ========================================= */
-.buscador {
-    margin-bottom: 2rem;
-    display: flex;
-    justify-content: center;
-}
-
-.buscador form {
-    display: flex;
-    width: 100%;
-    max-width: 520px;
-}
-
-.buscador input[type="text"] {
-    flex: 1;
-    padding: 12px 20px;
-    border: 1px solid #334155;
-    background-color: var(--bg-card);
-    color: white;
-    border-radius: 25px 0 0 25px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color var(--transition-speed);
-}
-
-.buscador input[type="text"]:focus {
-    border-color: var(--accent-color);
-}
-
-.buscador input[type="submit"] {
-    padding: 12px 25px;
-    background-color: var(--accent-color);
-    color: #000;
-    font-weight: bold;
-    border: none;
-    border-radius: 0 25px 25px 0;
-    cursor: pointer;
-    margin-top: 0;
-    transition: background var(--transition-speed);
-}
-
-.buscador input[type="submit"]:hover {
-    background-color: var(--accent-hover);
-    color: white;
-}
-
-/* =========================================
-   GRID DE JUEGOS (home)
-   ========================================= */
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
-    gap: 1.5rem;
-    width: 100%;
-}
-
-.game-card {
-    background-color: var(--bg-card);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    display: flex;
-    flex-direction: column;
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
-}
-
-.game-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0, 210, 255, 0.15);
-    border-color: rgba(0, 210, 255, 0.3);
-}
-
-.game-card a {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    color: inherit;
-}
-
-.game-card img {
-    width: 100%;
-    height: var(--card-img-height);
-    object-fit: cover;
-    border-bottom: 2px solid var(--accent-hover);
-    display: block;
-}
-
-.game-card-content {
-    padding: 1rem 1.2rem 1.2rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-
-.game-card h2 {
-    font-size: 1.1rem;
-    margin-bottom: 0.3rem;
-    color: white;
-    line-height: 1.3;
-}
-
-.game-card p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
-
-/* =========================================
-   DETALLE DE JUEGO — layout dos columnas
-   ========================================= */
-.detalle-layout {
-    display: grid;
-    grid-template-columns: var(--left-col) 1fr;
-    gap: 2rem;
-    align-items: stretch;
-    margin-bottom: 2.5rem;
-}
-
-/* Columna izquierda: portada */
-.detalle-panel-img {
-    display: flex;
-    flex-direction: column;
-}
-
-.detalle-cover {
-    width: 100%;
-    height: 100%;
-    min-height: 200px;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 210, 255, 0.15);
-    display: block;
-    object-fit: cover;
-    object-position: center top;
-}
-
-/* Columna derecha: info */
-.detalle-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.detalle-info h2 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: white;
-    line-height: 1.2;
-    border-bottom: 2px solid rgba(0, 210, 255, 0.2);
-    padding-bottom: 0.75rem;
-}
-
-.detalle-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-.detalle-meta span {
-    color: var(--accent-color);
-    font-weight: 600;
-}
-
-/* Bloque de estadísticas (recuento y puntuación media) */
-.detalle-stats {
-    background: rgba(0, 210, 255, 0.05);
-    border: 1px solid rgba(0, 210, 255, 0.15);
-    border-radius: 10px;
-    padding: 1.2rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.detalle-stats .avg-score {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: #fbbf24;
-    line-height: 1;
-}
-
-.detalle-stats .avg-label {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
-
-/* Texto auxiliar dentro del bloque de stats */
-.stats-info {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
-
-/* Botones de edición del juego */
-.detalle-acciones {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
-}
-
-/* =========================================
-   SECCIÓN DE RESEÑAS — layout dos columnas
-   ========================================= */
-.apartado_resenas {
-    display: grid;
-    grid-template-columns: var(--left-col) 1fr;
-    gap: 2rem;
-    align-items: start;
-}
-
-/* Lista de reseñas (columna derecha) */
-.reviews-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-/* Tarjeta individual de reseña */
-.review-card {
-    background-color: var(--bg-card);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: border-color var(--transition-speed);
-}
-
-.review-card:hover {
-    border-color: rgba(0, 210, 255, 0.15);
-}
-
-/* Reseña propia del usuario (resaltada con borde accent) */
-.review-card--mine {
-    border: 2px solid var(--accent-color);
-    background-color: rgba(0, 210, 255, 0.04);
-}
-
-/* Reseña en vista de confirmación de borrado (atenuada) */
-.review-card--preview-danger {
-    border: 2px solid white;
-    border-radius: 7px;
-    width: 500px;
-    padding: 3px;
-    opacity: 0.5;
-    margin-bottom: 1.5rem;
-}
-
-/* Cabecera de tarjeta: autor a la izquierda, info a la derecha */
-.review-card__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-/* Texto del nombre del usuario en la cabecera */
-.review-card__username {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
-
-/* Separador entre reseña propia y el resto */
-.reviews-divider {
-    border: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    margin: 4px 0;
-}
-
-/* Mensaje cuando aún no hay reseñas */
-.reviews-empty {
-    color: var(--text-muted);
-    text-align: center;
-    padding: 2rem 0;
-}
-
-/* Botones editar/eliminar al pie de una reseña */
-.eliminar_resena {
-    margin-top: 15px;
-    display: flex;
-    gap: 10px;
-}
-
-/* =========================================
-   TEXTOS DE RESEÑA
-   ========================================= */
-
-/* Nombre del autor de la reseña */
-.autor_resena {
-    color: var(--accent-color);
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
-
-/* Nombre resaltado en naranja (autor del juego, usuario en edición) */
-.autor_colorido {
-    color: orangered;
-}
-
-/* Filas con borde accent-left usadas en editar_resena */
-.autor_y_puntuacion {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-left: 5px solid var(--accent-color);
-    border-radius: 5px;
-}
-
-/* Fila de puntuación con estrellas */
-.puntuacion_resena {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #fbbf24;
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-/* Número de puntuación (ej: "4 / 5") */
-.score-number {
-    color: #fbbf24;
-}
-
-/* Cuerpo de texto de la reseña */
-.texto_resena {
-    font-size: 1rem;
-    color: var(--text-main);
-    line-height: 1.8;
-}
-
-/* Aviso cuando el usuario ya ha reseñado el juego */
-.resena-ya-hecha {
-    color: var(--accent-color);
-    text-align: center;
-}
-
-/* Invitación a iniciar sesión para poder reseñar */
-.resena-login-prompt {
-    text-align: center;
-    color: var(--text-muted);
-}
-
-/* =========================================
-   ESTRELLAS (puntuación visual)
+   ESTRELLAS (pseudoelementos, imposible con Tailwind)
    ========================================= */
 .stars-outer {
     display: inline-block;
@@ -560,24 +120,8 @@ header {
 }
 
 /* =========================================
-   FORMULARIOS
+   FORMULARIOS — inputs de Django (generados por {{ form }})
    ========================================= */
-.form-container {
-    background-color: var(--bg-card);
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    margin: 0 auto;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-}
-
-.form-container h1,
-.form-container h2,
-.form-container h3 {
-    margin-bottom: 1.5rem;
-    color: var(--accent-color);
-    text-align: center;
-}
-
 form p {
     margin-bottom: 1rem;
 }
@@ -617,28 +161,12 @@ form textarea {
     resize: vertical;
 }
 
-/* Imagen de previsualización (editar_juego) */
-.preview-img {
-    width: 100%;
-    max-width: 300px;
-    border-radius: var(--border-radius);
-    margin-bottom: 1rem;
-    border: 2px solid #334155;
-}
-
-/* Versión atenuada usada en la confirmación de borrado */
-.preview-img--danger {
-    opacity: 0.5;
-}
-
 /* =========================================
-   ESTILO GLOBAL PARA INPUTS DE ARCHIVO (Imágenes)
+   INPUT FILE (pseudo-elemento ::file-selector-button)
    ========================================= */
-
-/* Este selector busca TODOS los <input type="file"> del proyecto */
 input[type="file"] {
-    background-color: rgba(255, 255, 255, 0.05); /* Fondo sutil */
-    color: #cbd5e1; /* Color de texto gris claro */
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
     padding: 8px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 5px;
@@ -647,10 +175,8 @@ input[type="file"] {
     font-family: inherit;
 }
 
-/* Estilo para el BOTÓN que viene dentro del input ("Seleccionar archivo") */
-/* Usamos el pseudo-elemento ::file-selector-button */
 input[type="file"]::file-selector-button {
-    background-color: var(--accent-color); /* Tu azul de Steam */
+    background-color: var(--accent-color);
     color: white;
     padding: 8px 16px;
     border: none;
@@ -661,13 +187,11 @@ input[type="file"]::file-selector-button {
     transition: background-color 0.3s ease;
 }
 
-/* Efecto Hover para el botón interno */
 input[type="file"]::file-selector-button:hover {
     background-color: var(--accent-hover);
     filter: brightness(1.1);
 }
 
-/* Estilo cuando el input está enfocado */
 input[type="file"]:focus {
     outline: none;
     border-color: var(--accent-color);
@@ -675,17 +199,10 @@ input[type="file"]:focus {
 }
 
 /* =========================================
-   BOTONES
+   BOTONES — transiciones y variantes de color
    ========================================= */
 button,
 input[type="submit"] {
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--border-radius);
-    font-weight: bold;
-    cursor: pointer;
-    background-color: var(--accent-color);
-    color: #000;
     transition: all var(--transition-speed);
 }
 
@@ -696,67 +213,73 @@ input[type="submit"]:hover {
     transform: translateY(-2px);
 }
 
-/* Botón de edición (acción primaria sobre el juego) */
-.btn-action button {
-    color: var(--bg-main);
-}
-
 .btn-action button:hover {
     background-color: var(--accent-hover);
     color: white;
 }
 
-/* Botón de eliminación del juego */
-.btn-danger button {
-    background-color: var(--danger-color) !important;
-    color: white !important;
-}
-
-input[type="submit"].btn-submit-danger {
-    background-color: var(--danger-color);
-    color: white;
-    margin-top: 0;
-}
-
-input[type="submit"].btn-submit-danger:hover {
+.btn-danger button:hover {
     background-color: var(--danger-hover);
 }
 
-/* Submit de confirmación de borrado (rojo) */
-.btn-submit-danger {
-    background-color: var(--danger-color);
-    color: white;
-    margin-top: 0;
-}
-
+input[type="submit"].btn-submit-danger:hover,
 .btn-submit-danger:hover {
     background-color: var(--danger-hover);
     color: white;
 }
 
-/* Botón secundario de cancelar */
-.btn-cancel {
-    background-color: var(--text-muted);
-    color: white;
-    margin-top: 0;
+/* =========================================
+   GAME CARD — hover con colores CSS vars
+   ========================================= */
+.game-card {
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
 }
 
-/* Contenedor de botones en fila (confirmar/cancelar) */
-.form-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-top: 20px;
+.game-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 210, 255, 0.15);
+    border-color: rgba(0, 210, 255, 0.3);
 }
 
 /* =========================================
-   TEXTOS DE ÉNFASIS
+   REVIEW CARD — hover
    ========================================= */
+.review-card {
+    transition: border-color var(--transition-speed);
+}
 
-/* Nombre resaltado en rojo en páginas de borrado */
-.importante1 {
-    color: var(--danger-color);
-    text-decoration: underline;
+.review-card:hover {
+    border-color: rgba(0, 210, 255, 0.15);
+}
+
+/* =========================================
+   DETALLE — borde inferior con color CSS var
+   ========================================= */
+.detalle-info h2 {
+    border-bottom: 2px solid rgba(0, 210, 255, 0.2);
+}
+
+/* =========================================
+   BUSCADOR — bordes redondeados asimétricos
+   ========================================= */
+.buscador input[type="text"] {
+    border-radius: 25px 0 0 25px;
+    transition: border-color var(--transition-speed);
+}
+
+.buscador input[type="text"]:focus {
+    border-color: var(--accent-color);
+}
+
+.buscador input[type="submit"] {
+    border-radius: 0 25px 25px 0;
+    margin-top: 0;
+    transition: background var(--transition-speed);
+}
+
+.buscador input[type="submit"]:hover {
+    background-color: var(--accent-hover);
+    color: white;
 }
 
 /* =========================================
