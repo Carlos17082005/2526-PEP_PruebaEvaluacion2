@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic.edit import FormMixin
+from django.db.models import Avg
 from .forms import ResenaForm
 
 
@@ -36,6 +37,20 @@ class VistaDetalleJuego(FormMixin, DetailView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
+        todas_las_resenas = self.object.resenas.all()
+        total_resenas = todas_las_resenas.count()
+        context['total'] = total_resenas
+
+        if total_resenas > 0:
+            # Calculamos la media de puntuación de todas las reseñas
+            media = todas_las_resenas.aggregate(Avg('puntuacion'))['puntuacion__avg']
+            context['media_puntuacion'] = media
+            # Calculamos el porcentaje para el ancho de las estrellas (ej: 4.2 * 20 = 84%)
+            context['porcentaje_media'] = int(media * 20)
+        else:
+            context['media_puntuacion'] = 0.0
+            context['porcentaje_media'] = 0
+
         if user.is_authenticated:
             # Buscamos si el usuario tiene una reseña en este juego 
             mi_resena = self.object.resenas.filter(autor=user).first()
@@ -48,8 +63,9 @@ class VistaDetalleJuego(FormMixin, DetailView):
         else:
             # Si no está logueado, no hay "mi_resena" y todas son "otras"
             context['mi_resena'] = None
-            context['otras_resenas'] = self.object.resenas.all()
+            context['otras_resenas'] = todas_las_resenas
             context['ya_reseno'] = False
+
         return context
 
     def get_success_url(self):

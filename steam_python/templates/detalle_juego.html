@@ -22,20 +22,20 @@
             <!-- Estadísticas: número de reseñas y estrellas -->
             {% with total=object.resenas.count %}
                 {% if total > 0 %}
-                <div class="detalle-stats">
-                    <div>
-                        <div class="avg-score">{{ total }}</div>
-                        <div class="avg-label">reseñas</div>
-                    </div>
-                    <div>
-                        <div class="stats-info">
-                            {{ total }} {{ total|pluralize:"reseña,reseñas" }} publicada{{ total|pluralize:",s" }}
+                    <div class="detalle-stats">
+                        <div>
+                            <div class="avg-score">{{ media_puntuacion|floatformat:"1" }}</div>
+                            <div class="avg-label">sobre 5</div>
                         </div>
-                        <div class="stars-outer" style="font-size:1.6rem; margin-top: 4px;">
-                            <div class="stars-inner" style="width: 60%;"></div>
+                        <div>
+                            <div class="stats-info">
+                                {{ total }} {{ total|pluralize:"reseña,reseñas" }} publicada{{ total|pluralize:",s" }}
+                            </div>
+                            <div class="stars-outer" style="font-size:1.6rem; margin-top: 4px;">
+                                <div class="stars-inner" style="width: {{ porcentaje_media }}%;"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% endif %}
             {% endwith %}
 

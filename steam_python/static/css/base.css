@@ -110,7 +110,7 @@ header {
     gap: 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     position: sticky;
-    top: 61px; /* justo bajo el header */
+    top: 71px; /* justo bajo el header */
     z-index: 150;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
@@ -493,9 +493,6 @@ header {
 .autor_y_puntuacion {
     background-color: rgba(0, 0, 0, 0.2);
     border-left: 5px solid var(--accent-color);
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
-    border-top: 1px solid white;
     border-radius: 5px;
 }
 
@@ -520,9 +517,6 @@ header {
     font-size: 1rem;
     color: var(--text-main);
     line-height: 1.8;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
-    border-top: 1px solid white;
 }
 
 /* Aviso cuando el usuario ya ha reseñado el juego */
