@@ -17,6 +17,9 @@ class Juego(models.Model):
     imagen = models.ImageField(upload_to=upload_to)
     autor = models.ForeignKey("auth.User", on_delete=models.CASCADE)
 
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return f"{self.nombre_juego}({self.autor})"
 
@@ -36,6 +39,9 @@ class Resena(models.Model):
             MaxValueValidator(Decimal("5.0")),
         ],
     )
+
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
 
     @property
     def porcentaje_estrellas(self):

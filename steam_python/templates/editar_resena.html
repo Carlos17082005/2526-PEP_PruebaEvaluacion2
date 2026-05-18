@@ -3,8 +3,9 @@
 {% block content %}
     <div class="form-container tw-bg-[#151b2b] tw-p-8 tw-rounded-lg tw-mx-auto tw-shadow-2xl">
         <div class="tw-mb-4">
-            <h3 class="autor_y_puntuacion tw-bg-black/20 tw-border-l-[5px] tw-border-[#00d2ff] tw-rounded tw-px-3 tw-py-1">
-                Autor: <span class="autor_colorido">{{ resena.autor }}</span>
+            <h3 class="autor_y_puntuacion tw-bg-black/20 tw-border-l-[5px] tw-border-[#00d2ff] tw-rounded tw-px-3 tw-py-1 tw-flex tw-justify-between tw-items-center">
+                <span>Autor: <span class="autor_colorido">{{ resena.autor }}</span></span>
+                <span class="tw-text-[#94a3b8] tw-text-xs tw-font-normal">Publicado el {{ resena.fecha_creacion|date:"d/m/Y" }}</span>
             </h3>
         </div>
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
