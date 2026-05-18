@@ -101,7 +101,10 @@
                      style="border: 2px solid #00d2ff;">
                     <div class="tw-flex tw-justify-between tw-items-center tw-flex-wrap tw-gap-2 tw-mb-2">
                         <h3 class="tw-text-[#00d2ff] tw-text-[1.1rem] tw-mb-0">Tu Reseña</h3>
-                        <span class="tw-text-[#94a3b8] tw-text-sm">{{ mi_resena.autor }}</span>
+                        <div class="tw-text-right">
+                            <span class="tw-text-[#94a3b8] tw-text-sm tw-block">{{ mi_resena.autor }}</span>
+                            <span class="tw-text-[#94a3b8] tw-text-xs tw-opacity-75">{{ mi_resena.fecha_creacion|date:"d/m/Y" }}</span>
+                        </div>
                     </div>
 
                     <div class="tw-flex tw-items-center tw-gap-2.5 tw-text-[#fbbf24] tw-text-[1.1rem] tw-font-bold tw-mb-4">
@@ -137,7 +140,8 @@
                 <div class="review-card tw-bg-[#151b2b] tw-p-6 tw-rounded-lg tw-border tw-border-white/5">
 
                     <div class="tw-flex tw-justify-between tw-items-center tw-flex-wrap tw-gap-2 tw-mb-2">
-                        <h3 class="tw-text-[#00d2ff] tw-text-[1.1rem]">{{ resena.autor }}</h3>
+                        <h3 class="tw-text-[#00d2ff] tw-text-[1.1rem] tw-mb-0">{{ resena.autor }}</h3>
+                        <span class="tw-text-[#94a3b8] tw-text-xs tw-opacity-75">{{ resena.fecha_creacion|date:"d/m/Y" }}</span>
                     </div>
 
                     <div class="tw-flex tw-items-center tw-gap-2.5 tw-text-[#fbbf24] tw-text-[1.1rem] tw-font-bold tw-mb-4">
